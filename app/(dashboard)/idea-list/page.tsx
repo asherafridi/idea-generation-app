@@ -5,31 +5,75 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
 
-const Page = () => {
-  const [selectedCards, setSelectedCards] = useState([]);
+// Define types for card data
+interface Card {
+  id: number;
+  title: string;
+  description: string;
+}
 
-  const cards = [
-    { id: 1, title: "GreenGrid Hub", description: "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas." },
-    { id: 2, title: "SmartCity Solutions", description: "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas." },
-    { id: 3, title: "EcoEnergy Network", description: "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas." },
-    { id: 4, title: "UrbanAnalytics", description: "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas." },
-    { id: 5, title: "CleanTech Hub", description: "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas." },
-    { id: 6, title: "FutureEco", description: "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas." },
+interface InfoCardProps {
+  card: Card;
+  isSelected: boolean;
+  onSelect: (id: number) => void;
+}
+
+const Page: React.FC = () => {
+  const [selectedCards, setSelectedCards] = useState<Card[]>([]);
+
+  const cards: Card[] = [
+    {
+      id: 1,
+      title: "GreenGrid Hub",
+      description:
+        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
+    },
+    {
+      id: 2,
+      title: "SmartCity Solutions",
+      description:
+        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
+    },
+    {
+      id: 3,
+      title: "EcoEnergy Network",
+      description:
+        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
+    },
+    {
+      id: 4,
+      title: "UrbanAnalytics",
+      description:
+        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
+    },
+    {
+      id: 5,
+      title: "CleanTech Hub",
+      description:
+        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
+    },
+    {
+      id: 6,
+      title: "FutureEco",
+      description:
+        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
+    },
   ];
 
-  const handleCardSelect = (id:number, title:string, description:string) => {
-    setSelectedCards((prev:any) => {
-      const exists = prev.find((card:any) => card.id === id);
+  const handleCardSelect = (id: number): void => {
+    setSelectedCards((prev) => {
+      const exists = prev.some((card) => card.id === id);
       if (exists) {
         // Remove the card if it already exists in the selection
-        return prev.filter((card:any) => card.id !== id);
+        return prev.filter((card) => card.id !== id);
       }
       // Add the card if it doesn't exist
-      return [...prev, { id, title, description }];
+      const selectedCard = cards.find((card) => card.id === id);
+      return selectedCard ? [...prev, selectedCard] : prev;
     });
   };
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     console.log("Selected Cards:", selectedCards);
     // Navigate to the next step with selectedCards
   };
@@ -46,7 +90,6 @@ const Page = () => {
           >
             <ArrowLeft /> Back
           </Button>
-          
         </div>
 
         {/* Selectable Grid */}
@@ -55,20 +98,20 @@ const Page = () => {
             <InfoCard
               key={card.id}
               card={card}
-              isSelected={selectedCards.some((selected:any) => selected.id === card.id)}
+              isSelected={selectedCards.some((selected) => selected.id === card.id)}
               onSelect={handleCardSelect}
             />
           ))}
         </div>
       </div>
       <div className="px-8 flex justify-end">
-      <Button
-            variant={"default"}
-            className="font-body py-6 flex gap-4 bg-blue-600 text-xl text-white"
-            onClick={handleNext}
-          >
-           <ArrowRight /> Next
-          </Button>
+        <Button
+          variant={"default"}
+          className="font-body py-6 flex gap-4 bg-blue-600 text-xl text-white"
+          onClick={handleNext}
+        >
+          <ArrowRight /> Next
+        </Button>
       </div>
     </div>
   );
@@ -76,7 +119,7 @@ const Page = () => {
 
 export default Page;
 
-const InfoCard = ({ card, isSelected, onSelect }) => {
+const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
   return (
     <div
       onClick={() => onSelect(card.id)}

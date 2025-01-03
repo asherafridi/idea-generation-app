@@ -6,10 +6,17 @@ import { ArrowLeft, ArrowRight, Snowflake } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const Page = () => {
-  const [selectedCard, setSelectedCard] = useState(null);
+// Card Interface
+interface Card {
+  id: number;
+  title: string;
+  description: string;
+}
 
-  const cards = [
+const Page: React.FC = () => {
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+
+  const cards: Card[] = [
     {
       id: 1,
       title: "GreenGrid Hub",
@@ -48,8 +55,8 @@ const Page = () => {
     },
   ];
 
-  const handleCardSelect = (id, title, description) => {
-    setSelectedCard({ id, title, description });
+  const handleCardSelect = (card: Card) => {
+    setSelectedCard(card);
   };
 
   const handleNext = () => {
@@ -71,7 +78,7 @@ const Page = () => {
           </Button>
         </div>
         <div className="flex justify-between gap-2 flex-col lg:flex-row">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 row-span-8 p-6 font-body w-full lg:w-1/2  lg:border-r border-gray-600">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 row-span-8 p-6 font-body w-full lg:w-1/2 lg:border-r border-gray-600">
             {cards.map((card) => (
               <InfoCard
                 key={card.id}
@@ -82,38 +89,58 @@ const Page = () => {
             ))}
           </div>
 
-          {/* Selectable Grid */}
-        <div className="w-full lg:w-1/2  flex flex-col items-end p-6">
-          <Button variant={"outline"} className=""><span className="text-xl"><Snowflake size={36}/></span> Generate Diagram</Button>
-          <div className="w-full mt-6 bg-background p-4 rounded-lg border border-2 border-blue-400 font-body min-h-[400px] max-h-[400px] overflow-y-auto">
-            <h2 className="text-xl font-semibold font-heading text-blue-700">{selectedCard?.title}</h2>
-            <br />
-            {selectedCard?.description}</div>
-            <div className="w-full flex justify-end mt-6 gap-4">
-            <Button variant={"outline"} className="bg-background font-body h-100 text-xl w-2/5">Idea Refine</Button>
-            <Button variant={"outline"} className="bg-background font-body h-100 text-xl w-2/5">View Prototype</Button>
-            <Button className="w-1/5 h-100"><Image
-                    src="/chat.png"
-                    width={50}
-                    height={50}
-                    alt="Chat"
-                  /></Button>
+          {/* Selected Card Details */}
+          <div className="w-full lg:w-1/2 flex flex-col items-end p-6">
+            <Button variant={"outline"}>
+              <span className="text-xl">
+                <Snowflake size={36} />
+              </span>{" "}
+              Generate Diagram
+            </Button>
+            <div className="w-full mt-6 bg-background p-4 rounded-lg border border-2 border-blue-400 font-body min-h-[400px] max-h-[400px] overflow-y-auto">
+              <h2 className="text-xl font-semibold font-heading text-blue-700">
+                {selectedCard?.title}
+              </h2>
+              <br />
+              {selectedCard?.description}
             </div>
+            <div className="w-full flex justify-end mt-6 gap-4">
+              <Button
+                variant={"outline"}
+                className="bg-background font-body h-100 text-xl w-2/5"
+              >
+                Idea Refine
+              </Button>
+              <Button
+                variant={"outline"}
+                className="bg-background font-body h-100 text-xl w-2/5"
+              >
+                View Prototype
+              </Button>
+              <Button className="w-1/5 h-100">
+                <Image src="/chat.png" width={50} height={50} alt="Chat" />
+              </Button>
+            </div>
+          </div>
         </div>
-        </div>
-        
       </div>
-      
     </div>
   );
 };
 
 export default Page;
 
-const InfoCard = ({ card, isSelected, onSelect }) => {
+// InfoCard Component
+interface InfoCardProps {
+  card: Card;
+  isSelected: boolean;
+  onSelect: (card: Card) => void;
+}
+
+const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
   return (
     <div
-      onClick={() => onSelect(card.id, card.title, card.description)}
+      onClick={() => onSelect(card)}
       className={`relative w-full lg:max-w-sm p-6 bg-white border rounded-2xl shadow-lg cursor-pointer ${
         isSelected ? "border-blue-600 ring-2 ring-blue-400" : "border-blue-400"
       }`}
