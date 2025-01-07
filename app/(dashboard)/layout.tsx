@@ -4,6 +4,7 @@ import { Sidebar, SidebarProvider, SidebarTrigger } from "@/components/Sidebar";
 import { Toaster } from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { IdeaProvider } from "@/components/IdeaProvider";
 
 export default function RootLayout({
   children,
@@ -18,7 +19,7 @@ export default function RootLayout({
     <SidebarProvider>
       <main className="w-full flex">
         <Sidebar />
-        <div className="w-full lg:pl-24 ">{children}</div>
+        <div className="w-full lg:pl-24 "><IdeaProvider>{children}</IdeaProvider></div>
         <Toaster position="top-right" />
       </main>
     </SidebarProvider>

@@ -1,10 +1,42 @@
 "use client";
 import IdeaBar from "@/components/IdeaBar";
+import { useIdea } from "@/components/IdeaProvider";
 import { Button } from "@/components/ui/button";
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
 import React, { useState } from "react";
+import axios from "axios";
 
-const page = () => {
+const Page = () => {
+  const { text } = useIdea();
+
+  const [formData, setFormData] = useState({
+    ideaName: "",
+    category: "Smart Cities",
+    concept: "",
+    
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/generate-idea", formData);
+      console.log("Idea generated successfully:", response.data);
+      // Handle success (e.g., display a success message)
+    } catch (error) {
+      console.error("Error generating idea:", error.response || error.message);
+      // Handle error (e.g., display an error message)
+    }
+  };
+
   return (
     <div className="w-full">
       <IdeaBar menu="generation" />
@@ -14,14 +46,22 @@ const page = () => {
         <p className="mt-4 font-body text-gray-800">
           Brainstorm new ideas for your business in a few seconds.
         </p>
-        <form className="w-[500px] mt-4">
+        <form className="w-[500px] mt-4" onSubmit={handleSubmit}>
           <input
             type="text"
+            name="ideaName"
             placeholder="Enter Idea Name"
+            value={formData.ideaName}
+            onChange={handleInputChange}
             className="w-full p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
           />
           <div className="relative w-full mt-4">
-            <select className="w-full p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600 appearance-none">
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="w-full p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600 appearance-none"
+            >
               <option>Smart Cities</option>
               <option>Artificial Intelligence</option>
               <option>Blockchain</option>
@@ -46,8 +86,11 @@ const page = () => {
           </div>
           <div className="relative w-full mt-4">
             <textarea
+              name="concept"
               placeholder="Provide your product/services concept here..."
               rows={8}
+              value={formData.concept}
+              onChange={handleInputChange}
               className="w-full p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
             ></textarea>
             {/* Question Mark Icon */}
@@ -56,7 +99,13 @@ const page = () => {
             </div>
           </div>
           <div className="w-full flex justify-center">
-            <Button variant={"outline"} className="bg-background w-64 text-lg font-body h-12 mx-auto">Generate Idea</Button>
+            <Button
+              type="submit"
+              variant={"outline"}
+              className="bg-background w-64 text-lg font-body h-12 mx-auto"
+            >
+              Generate Idea
+            </Button>
           </div>
         </form>
       </div>
@@ -64,4 +113,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
