@@ -4,18 +4,25 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { CircleDashed, Mail, Lock, User, Eye, EyeClosed } from "lucide-react";
 import toast from "react-hot-toast";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import axios from "axios";
 import Image from "next/image";
 import Graphic from "@/public/images/login_graphic.png";
 
+// Define a type for the form data
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const Page = () => {
   const router = useRouter();
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [submit, setSubmit] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const [submit, setSubmit] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const submitForm = async (data: any) => {
+  const submitForm: SubmitHandler<FormData> = async (data: FormData) => {
     setSubmit(true);
 
     try {
@@ -106,7 +113,7 @@ const Page = () => {
               )}
             </button>
             {errors.password && (
-              <span className="text-destructive text-sm">{errors.password.message}</span>
+              <span className="text-destructive text-sm">{errors?.password?.message}</span>
             )}
           </div>
 
