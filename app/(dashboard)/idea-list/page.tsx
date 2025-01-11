@@ -1,15 +1,17 @@
 "use client";
 import IdeaBar from "@/components/IdeaBar";
+import { useIdea } from "@/components/IdeaProvider";
 import { Button } from "@/components/ui/button";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 // Define types for card data
 interface Card {
-  id: number;
+  idea_id: number;
   title: string;
-  description: string;
+  idea: string;
 }
 
 interface InfoCardProps {
@@ -19,63 +21,27 @@ interface InfoCardProps {
 }
 
 const Page: React.FC = () => {
-  const [selectedCards, setSelectedCards] = useState<Card[]>([]);
+  const { ideas, setSelectedIdeas, selectedIdeas } = useIdea();
+  const [selectedCards, setSelectedCards] = useState(selectedIdeas || []);
+  const cards = ideas || []; // Ensure `cards` is always an array.
 
-  const cards: Card[] = [
-    {
-      id: 1,
-      title: "GreenGrid Hub",
-      description:
-        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
-    },
-    {
-      id: 2,
-      title: "SmartCity Solutions",
-      description:
-        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
-    },
-    {
-      id: 3,
-      title: "EcoEnergy Network",
-      description:
-        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
-    },
-    {
-      id: 4,
-      title: "UrbanAnalytics",
-      description:
-        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
-    },
-    {
-      id: 5,
-      title: "CleanTech Hub",
-      description:
-        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
-    },
-    {
-      id: 6,
-      title: "FutureEco",
-      description:
-        "An eco-friendly initiative that integrates IoT-based energy monitoring and management across buildings to reduce carbon emissions. GreenGrid Hub leverages smart sensors and data analytics to optimize energy consumption, promote renewable sources, and encourage sustainable practices within urban areas.",
-    },
-  ];
+  const router = useRouter();
 
   const handleCardSelect = (id: number): void => {
     setSelectedCards((prev) => {
-      const exists = prev.some((card) => card.id === id);
+      const exists = prev.some((card) => card.idea_id === id);
       if (exists) {
-        // Remove the card if it already exists in the selection
-        return prev.filter((card) => card.id !== id);
+        return prev.filter((card) => card.idea_id !== id);
       }
-      // Add the card if it doesn't exist
-      const selectedCard = cards.find((card) => card.id === id);
+      const selectedCard = cards.find((card) => card.idea_id === id);
       return selectedCard ? [...prev, selectedCard] : prev;
     });
   };
 
   const handleNext = (): void => {
     console.log("Selected Cards:", selectedCards);
-    // Navigate to the next step with selectedCards
+    setSelectedIdeas(selectedCards);
+    router.push("/idea-refinement");
   };
 
   return (
@@ -87,6 +53,9 @@ const Page: React.FC = () => {
           <Button
             variant={"outline"}
             className="font-body py-6 flex gap-4 bg-background text-xl"
+            onClick={()=>{
+              router.back();
+            }}
           >
             <ArrowLeft /> Back
           </Button>
@@ -96,14 +65,15 @@ const Page: React.FC = () => {
         <div className="grid grid-cols-4 gap-4 row-span-8 p-6 font-body">
           {cards.map((card) => (
             <InfoCard
-              key={card.id}
+              key={card.idea_id}
               card={card}
-              isSelected={selectedCards.some((selected) => selected.id === card.id)}
+              isSelected={selectedCards.some((selected) => selected.idea_id === card.idea_id)}
               onSelect={handleCardSelect}
             />
           ))}
         </div>
       </div>
+
       <div className="px-8 flex justify-end">
         <Button
           variant={"default"}
@@ -122,7 +92,7 @@ export default Page;
 const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
   return (
     <div
-      onClick={() => onSelect(card.id)}
+      onClick={() => onSelect(card.idea_id)}
       className={`relative max-w-sm p-6 bg-white border rounded-2xl shadow-lg cursor-pointer ${
         isSelected ? "border-blue-600 ring-2 ring-blue-400" : "border-blue-400"
       }`}
@@ -140,11 +110,11 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
       </div>
 
       {/* Description */}
-      <p className="mt-2 text-sm text-gray-700">{card.description}</p>
+      <p className="mt-2 text-sm text-gray-700">{card.idea}</p>
 
       {/* Action Button */}
       <button
-        className="absolute right-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
+        className="absolute right-4 p-2 -bottom-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
         aria-label="Copy content"
       >
         <svg

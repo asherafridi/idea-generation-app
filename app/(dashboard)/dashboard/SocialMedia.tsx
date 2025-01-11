@@ -9,11 +9,14 @@ export default function SocialMedia() {
         Enterprise Social Media Reviews
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-4 grid-rows-2  gap-12">
-        <SocialMediaCard />
-        <SocialMediaCard />
-        <SocialMediaCard />
-        <SocialMediaCard />
-        <SocialMediaCard />
+      <SocialMediaCard logo="/social/reddit.png" title="Reddit" />
+      <SocialMediaCard logo="/social/facebook.png" title="Facebook" />
+      <SocialMediaCard logo="/social/linkedin.png" title="LinkedIn" />
+      <SocialMediaCard logo="/social/x.png" title="X" />
+      <SocialMediaCard logo="/social/substack.png" title="Substack" />
+      <SocialMediaCard logo="/social/medium.png" title="Medium" />
+      <SocialMediaCard logo="/social/quora.png" title="Quora" />
+      <SocialMediaCard logo="/social/b2c.png" title="Business 2 Community" />
       </div>
     </div>
   );

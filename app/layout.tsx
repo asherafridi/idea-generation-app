@@ -19,8 +19,6 @@ export default function RootLayout({
       <body className="min-h-screen light">
 
         <Provider>{children}</Provider>
-        <Toaster />
-        <ThemeToggle />
       </body>
     </html>
     

@@ -1,22 +1,73 @@
-import React from 'react'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import { SidebarTrigger } from './Sidebar'
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import FormButton from "./FormButton";
+import { useIdea } from "./IdeaProvider";
 
-const SocialMediaCard = () => {
-  return (
-    
-    <div className="w-full bg-background border hover:shadow-lg rounded-lg  flex flex-col items-center justify-center font-body p-4 py-16">
-        <img src='/chat.png' className='w-16' />
-        <h3 className='text-2xl mt-2 font-heading font-medium'>Reddit</h3>
-        <form className='w-full mt-12 flex flex-col items-center'>
-            <input type='text' className='w-[80%] py-2 text-md bg-background rounded-lg border border-gray-400 px-4 font-body' placeholder='Enter Reddit Link' />
-            <Button className='w-[80%] mt-4 bg-[rgba(106,68,255,0.2)] rounded-lg text-blue-800 border-blue-800 border'>
-                Connect
-            </Button>
-        </form>
-    </div>
-  )
+interface SocialMediaCardProps {
+  logo: string; // Path or URL for the logo image
+  title: string; // Title of the card
 }
 
-export default SocialMediaCard
+const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ logo, title }) => {
+  const [btnLoader, setBtnLoader] = useState<boolean>(false);
+  const [link, setLink] = useState<string>("");
+  const router = useRouter();
+  const {setText} = useIdea();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent form refresh
+    setBtnLoader(true);
+
+    try {
+      const res = await axios.post(
+        "https://scrape.vetaai.com/scrape",
+        { urls: [link] },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      setBtnLoader(false);
+      toast.success("Successfully processed!");
+      
+      setText(res.data.enhanced_text);
+      router.push("/idea-generation");
+    } catch (error) {
+      setBtnLoader(false);
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.message);
+        toast.error(error.message);
+        console.error("Response:", error.response?.data);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
+
+  return (
+    <div className="w-full bg-background border hover:shadow-lg rounded-lg flex flex-col items-center justify-center font-body p-4 py-16">
+      <img src={logo} className="w-16" alt={`${title} Logo`} />
+      <h3 className="text-2xl mt-2 font-body font-medium">{title}</h3>
+      <form
+        className="w-full mt-12 flex flex-col items-center"
+        onSubmit={handleSubmit}
+      >
+        <input
+          type="text"
+          className="w-[80%] py-2 text-md bg-background rounded-lg border border-gray-400 px-4 font-body"
+          placeholder={`Enter ${title} Link`}
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+        />
+        <FormButton
+          state={btnLoader}
+          text="Connect"
+          onClick={() => {}}
+          className="w-[80%] h-12 text-md mt-4 bg-[rgba(106,68,255,0.2)] rounded-lg text-blue-800 border-blue-800 border"
+        />
+      </form>
+    </div>
+  );
+};
+
+export default SocialMediaCard;

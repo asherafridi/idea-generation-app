@@ -15,6 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import ProfileMenu from "./ProfileMenu";
 
 // Sidebar Context
 interface SidebarContextType {
@@ -29,7 +30,9 @@ interface SidebarProviderProps {
   children: ReactNode;
 }
 
-export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
+export const SidebarProvider: React.FC<SidebarProviderProps> = ({
+  children,
+}) => {
   const [isExpanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => setExpanded((prev) => !prev);
@@ -83,11 +86,14 @@ export const Sidebar: React.FC = () => {
   const router = useRouter();
 
   const items: SidebarItemProps[] = [
-    { href: "/profile", Icon: <User />, label: "Profile" },
-    { href: "/settings", Icon: <Twitter />, label: "Social Media" },
-    { href: "/settings", Icon: <Flame />, label: "Data Connect" },
-    { href: "/settings", Icon: <Globe />, label: "Website Link" },
-    { href: "/settings", Icon: <File />, label: "Upload Document" },
+    { href: "/dashboard?tab=social", Icon: <Twitter />, label: "Social Media" },
+    { href: "/dashboard?tab=data", Icon: <Flame />, label: "Data Connect" },
+    {
+      href: "/dashboard?tab=document",
+      Icon: <File />,
+      label: "Upload Document",
+    },
+    { href: "/dashboard?tab=website", Icon: <Globe />, label: "Website Link" },
     { href: "/settings", Icon: <Twitch />, label: "History" },
   ];
 
@@ -121,7 +127,11 @@ export const Sidebar: React.FC = () => {
           </div>
 
           {/* Menu Items */}
-          <div className={`mt-32 font-heading font-medium text-sm flex flex-col gap-2`}>
+          <div
+            className={`mt-32 font-heading font-medium text-sm flex flex-col gap-2`}
+          >
+            <ProfileMenu isExpanded={isExpanded} />
+
             {items.map((item, index) => (
               <SidebarItem
                 key={index}
@@ -174,7 +184,11 @@ export const Sidebar: React.FC = () => {
 };
 
 // Sidebar Item Component
-export const SidebarItem: React.FC<SidebarItemProps> = ({ href, Icon, label }) => {
+export const SidebarItem: React.FC<SidebarItemProps> = ({
+  href,
+  Icon,
+  label,
+}) => {
   const { isExpanded } = useSidebar();
 
   return (

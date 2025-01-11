@@ -9,7 +9,7 @@ const config: Config = {
   ],
   theme: {
   	fontFamily: {
-  		heading: 'Montserrat',
+  		heading: 'Bricolage Grotesque',
   		body: 'Poppins'
   	},
   	extend: {
