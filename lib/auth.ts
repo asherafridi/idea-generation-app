@@ -7,6 +7,19 @@ import { AuthOptions } from "next-auth";
 import NextAuth, { DefaultSession } from "next-auth"
 
 
+declare module "next-auth" {
+    interface User {
+        id: string;
+        name: string | null;
+        email: string | null;
+      }
+
+    interface Session {
+        user: {
+            id: string,
+        } & DefaultSession["user"]
+    }
+}
 
 export const authOption: AuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -60,6 +73,7 @@ export const authOption: AuthOptions = {
             return token;
         },
         async session({ session, token }) {
+            session.user.id = `${token.id}`;
             return session;
         }
     },
