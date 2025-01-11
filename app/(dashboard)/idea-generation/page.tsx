@@ -33,26 +33,26 @@ const Page: React.FC = () => {
   const { text, setIdeas } = useIdea();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!text) {
-      router.push("/dashboard");
-    }
+  // useEffect(() => {
+  //   if (!text) {
+  //     router.push("/dashboard");
+  //   }
 
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (text) {
-        event.preventDefault();
-        event.returnValue = ""; // Default browser prompt
-      }
-    };
+  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     if (text) {
+  //       event.preventDefault();
+  //       event.returnValue = ""; // Default browser prompt
+  //     }
+  //   };
 
-    if (text) {
-      window.addEventListener("beforeunload", handleBeforeUnload);
-    }
+  //   if (text) {
+  //     window.addEventListener("beforeunload", handleBeforeUnload);
+  //   }
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [text, router]);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, [text, router]);
 
   const [btnLoader, setBtnLoader] = useState<boolean>(false);
 
