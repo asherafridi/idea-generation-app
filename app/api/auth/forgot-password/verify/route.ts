@@ -23,8 +23,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   
   try {
     // Verify the token and calculate the time difference
-    let data = verifyToken(token);
-    let differenceMin = timeDifference(data.time);
+    const data = verifyToken(token);
+    const differenceMin = timeDifference(data.time);
 
     if (differenceMin > 150) {
       return NextResponse.json({ msg: 'Password link has expired.' }, { status: 500 });

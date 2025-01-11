@@ -3,16 +3,29 @@ import prisma from "@/lib/db";
 import axios from "axios";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+import jwt from 'jsonwebtoken';
 
-export async function POST(req: NextRequest) {
-    const { token } = await req.json();
+// Define types for the token and user data
+interface TokenData {
+    time: string;
+    userId: string;
+}
+
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    status: boolean;
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
+    const { token }: { token: string } = await req.json();  // Specify that token is a string
+
     try {
-        let data = await verifyToken(token);
-        let diffrenceMin = timeDiffrence(data.time);
+        const data = await verifyToken(token);
+        const differenceMin = timeDifference(data.time);
 
-        if (diffrenceMin > 30) {
+        if (differenceMin > 30) {
             return NextResponse.json({ msg: 'Verification link has expired.' }, { status: 500 });
         }
 
@@ -22,51 +35,46 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        
-
-        if (user.verificationToken != token) {
+        if (user.email !== token) {
             return NextResponse.json({ msg: 'Invalid Token' }, { status: 500 });
         }
-        if (user.subaccount_id == null) {
 
+        if (user.id == null) {
             const options = {
                 method: 'POST',
                 headers: {
-                    authorization: process.env.BLAND_KEY,
-                    'Content-Type': 'application/json'
+                    authorization: process.env.BLAND_KEY || '',
+                    'Content-Type': 'application/json',
                 },
                 data: {
                     balance: 2,
                     first_name: user.name,
                     last_name: user.email,
-                    login_enabled: false
-                }
+                    login_enabled: false,
+                },
             };
 
             const request = await axios.post('https://api.bland.ai/v1/subaccounts', options.data, { headers: options.headers });
             console.log(request);
+
             const userUpdate = await prisma.user.update({
                 where: {
                     id: +data.userId,
                 },
                 data: {
                     status: true,
-                    subaccount_id : request.data.subaccount_id,
-                    subaccount_key : request.data.subaccount_key
-                }
+                },
             });
-        }else{
-
+        } else {
             const userToken = await prisma.user.update({
                 where: {
                     id: +data.userId,
                 },
                 data: {
-                    status: true
-                }
+                    status: true,
+                },
             });
         }
-
 
         return NextResponse.json({ msg: 'Email Verified Successfully' }, { status: 200 });
 
@@ -76,21 +84,24 @@ export async function POST(req: NextRequest) {
     }
 }
 
-const verifyToken = (token: any) => {
-    let jwtSecret = process.env.JWT_SECRET || 'defaultSecret';
-    return jwt.verify(token, jwtSecret);
+// Function to verify the JWT token and return the decoded data
+const verifyToken = (token: string): TokenData => {
+    const jwtSecret = process.env.JWT_SECRET || 'defaultSecret';
+    try {
+        const decoded = jwt.verify(token, jwtSecret) as TokenData;
+        return decoded;
+    } catch (error) {
+        throw new Error('Invalid or expired token');
+    }
 }
 
-const timeDiffrence = (date: any) => {
+// Function to calculate the time difference in minutes
+const timeDifference = (date: string): number => {
+    const currentDate = new Date();
+    const pastDate = new Date(date);
 
-    let currentDate: any = new Date();
-    let pastDate: any = new Date(date); // Assuming data.time is a valid date string or timestamp
-
-    // Calculate the difference in milliseconds
-    let differenceInMs = currentDate - pastDate;
-
-    // Convert the difference to minutes
-    let differenceInMinutes = differenceInMs / (1000 * 60);
+    const differenceInMs = currentDate.getTime() - pastDate.getTime();
+    const differenceInMinutes = differenceInMs / (1000 * 60);
 
     return differenceInMinutes;
 }

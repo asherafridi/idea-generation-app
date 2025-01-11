@@ -40,9 +40,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     let tokenExpired = false;
 
-    if (user.verificationToken) {
+    if (user.id) {
       try {
-        const userLink = verifyToken(user.verificationToken); // Verifies token
+        const userLink = verifyToken(user.password); // Verifies token
         if (timeDifference(userLink.time) < 30) {
           return NextResponse.json({ msg: 'Token already sent to the email.' }, { status: 500 });
         }
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     }
 
-    if (!user.verificationToken || tokenExpired) {
+    if (!user.id || tokenExpired) {
       const token = createToken(session.user.id); // Create a new token
 
       await prisma.user.update({
@@ -63,7 +63,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           id: +session.user.id,
         },
         data: {
-          verificationToken: token,
         },
       });
 
