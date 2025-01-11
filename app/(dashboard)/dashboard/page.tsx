@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     const currentParams = new URLSearchParams(searchParams);
     currentParams.set("tab", tab); // Update the `tab` parameter
-    router.push(`/dashboard?${currentParams.toString()}`, { shallow: true });
+    router.push(`/dashboard?${currentParams.toString()}`);
   }, [tab]);
 
   const tabs = [
