@@ -1,21 +1,23 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
-// Define a custom type for the global object
-declare const global: {
-    prisma?: PrismaClient; // Specify the shape of the global object
-};
+declare global {
+  // Prevent TypeScript error during hot reload in development
+  var prisma: PrismaClient | undefined;
+}
 
-let prisma: PrismaClient;
-
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+const prisma =
+  global.prisma ||
+  new PrismaClient({
+    log: process.env.NODE_ENV === "production" ? [] : ["query", "info", "warn", "error"],
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL, // Ensure DATABASE_URL is configured in Vercel
+      },
+    },
   });
-} else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient();
-  }
-  prisma = global.prisma;
+
+if (process.env.NODE_ENV !== "production") {
+  global.prisma = prisma;
 }
 
 export default prisma;
