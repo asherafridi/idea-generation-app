@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+import bcrypt from 'bcrypt';
 
 export function hashPass(pass:string){
     return bcrypt.hash(pass,10).then((hash:string)=>{
