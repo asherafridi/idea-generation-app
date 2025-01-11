@@ -11,6 +11,7 @@ import FormButton from "@/components/FormButton";
 import IdeaBar from "@/components/IdeaBar";
 import { useIdea } from "@/components/IdeaProvider";
 import Markdown from "react-markdown";
+import toast from "react-hot-toast";
 
 // Interface for card data
 interface Card {
@@ -53,6 +54,10 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
     <button
       className="absolute right-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
       aria-label="Copy content"
+      onClick={()=>{
+        navigator.clipboard.writeText(card.idea);
+       toast.success("Idea Copied!");
+     }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -181,20 +186,20 @@ const Page: React.FC = () => {
                 {selectedCard?.idea || "Please select a card to see the details."}
               </p>
             </div>
-            <div className="w-full flex justify-end mt-6 gap-4">
+            <div className="w-full flex flex-col md:flex-row justify-end mt-6 gap-4">
               <FormButton
                 state={refineBtnLoader}
                 text="Idea Refine"
                 onClick={handleIdeaRefine}
-                className="w-2/5 h-16 hover:bg-blue-600 hover:text-white"
+                className="w-full md:w-2/5 h-16 hover:bg-blue-600 hover:text-white"
               />
               <Button
                 variant="outline"
-                className="bg-background font-body text-xl w-2/5 h-16"
+                className="bg-background font-body text-xl w-full md:w-2/5 h-16"
               >
                 View Prototype
               </Button>
-              <Button className="w-1/5 h-16">
+              <Button className="w-full md:w-1/5 h-16 ">
                 <Image src="/chat.png" width={50} height={50} alt="Chat" />
               </Button>
             </div>

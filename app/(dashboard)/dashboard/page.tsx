@@ -33,8 +33,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="px-8">
-      <h1 className="text-center font-body text-5xl font-medium mb-6 text-[#368DFF] mt-4">
+    <div className="px-2 lg:px-8">
+      <h1 className="text-center font-heading text-5xl font-medium mb-6 text-[#368DFF] mt-4">
         Ideation Studio
       </h1>
       <div className="flex w-full bg-background h-auto lg:h-16 font-body rounded-xl overflow-hidden relative shadow-lg">
@@ -42,7 +42,7 @@ export default function Home() {
           <button
             key={item.id}
             onClick={() => setTab(item.id)}
-            className={`w-1/4 transition-all flex flex-col lg:flex-row items-center px-12 lg:gap-8 gap-2 py-4 duration-300 text-md lg:text-lg ${
+            className={`w-1/4 transition-all flex flex-col lg:flex-row items-center px-4 lg:px-12 lg:gap-8 gap-2 py-4 duration-300 text-md lg:text-lg ${
               tab === item.id
                 ? "bg-blue-500 text-white z-10 rounded-xl"
                 : "bg-background text-foreground text-black"

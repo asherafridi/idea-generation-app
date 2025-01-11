@@ -7,7 +7,7 @@ import  Provider  from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Idea Generation App",
-  description: "Created By Ashir",
+  description: "",
 };
 
 export default function RootLayout({

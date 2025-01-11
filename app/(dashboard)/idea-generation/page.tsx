@@ -131,12 +131,12 @@ const Page: React.FC = () => {
     <div className="w-full">
       <IdeaBar menu="generation" />
 
-      <div className="max-w-4xl mx-auto mt-32 flex flex-col items-center">
+      <div className="max-w-4xl mx-auto  mt-16 md:mt-32 flex flex-col items-center">
         <h1 className="font-heading text-5xl font-semibold">Generate Ideas</h1>
-        <p className="mt-4 font-body text-gray-800">
+        <p className=" px-4 text-center mt-4 font-body text-gray-800">
           Brainstorm new ideas for your business in a few seconds.
         </p>
-        <form className="w-[500px] mt-4" onSubmit={handleSubmit}>
+        <form className="w-full px-4 md:w-[500px] mt-4" onSubmit={handleSubmit}>
           <input
             type="text"
             name="ideaName"
