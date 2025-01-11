@@ -4,10 +4,23 @@ import { getServerSession } from 'next-auth';
 import { authOption } from '@/lib/auth';
 import axios from 'axios';
 import { Prisma } from '@prisma/client';
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 
-export async function POST(req: NextRequest) {
+// Define types for the token and user data
+interface TokenData {
+  time: string;
+  userId: string;
+}
+
+interface User {
+  id: number;
+  email: string;
+  status: boolean;
+  verificationToken?: string | null;
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const session = await getServerSession(authOption);
 
   if (!session?.user?.id) {
@@ -33,14 +46,13 @@ export async function POST(req: NextRequest) {
         if (timeDifference(userLink.time) < 30) {
           return NextResponse.json({ msg: 'Token already sent to the email.' }, { status: 500 });
         }
-      } catch (e:any) {
+      } catch (e: any) {
         if (e.name === 'TokenExpiredError') {
           tokenExpired = true; // Token has expired, need to send a new one
         } else {
           throw e; // Other errors, such as invalid token
         }
       }
-      
     }
 
     if (!user.verificationToken || tokenExpired) {
@@ -67,18 +79,25 @@ export async function POST(req: NextRequest) {
       }
     }
     if (error instanceof Prisma.PrismaClientUnknownRequestError) {
-      return NextResponse.json({ msg: 'Unknown Error' + error.cause, e :error }, { status: 500 });
+      return NextResponse.json({ msg: 'Unknown Error' + error.cause, e: error }, { status: 500 });
     }
     return NextResponse.json({ msg: 'Something Went Wrong!' }, { status: 500 });
   }
 }
 
-const verifyToken = (token: string) => {
+// Function to verify the JWT token and return the decoded data
+const verifyToken = (token: string): TokenData => {
   const jwtSecret = process.env.JWT_SECRET || 'defaultSecret';
-  return jwt.verify(token, jwtSecret); // Will throw error if expired or invalid
+  try {
+    const decoded = jwt.verify(token, jwtSecret) as TokenData;
+    return decoded;
+  } catch (error) {
+    throw new Error('Invalid or expired token');
+  }
 };
 
-const timeDifference = (date: string) => {
+// Function to calculate the time difference in minutes
+const timeDifference = (date: string): number => {
   const currentDate = new Date();
   const pastDate = new Date(date);
 
@@ -88,7 +107,8 @@ const timeDifference = (date: string) => {
   return differenceInMinutes;
 };
 
-const createToken = (id: string) => {
+// Function to create a new JWT token
+const createToken = (id: string): string => {
   const jwtSecret = process.env.JWT_SECRET || 'defaultSecret';
   const data = {
     time: new Date().toISOString(),
@@ -98,10 +118,11 @@ const createToken = (id: string) => {
   return jwt.sign(data, jwtSecret, { expiresIn: '30m' }); // Token expires in 30 minutes
 };
 
-const sendVerificationEmail = async (token: string, email: string) => {
+// Function to send the verification email with the token
+const sendVerificationEmail = async (token: string, email: string): Promise<void> => {
   const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
-    port: process.env.MAIL_PORT || 587,
+    port: parseInt(process.env.MAIL_PORT || '587'),
     secure: false,
     auth: {
       user: process.env.MAIL_USER,
@@ -128,7 +149,8 @@ const sendVerificationEmail = async (token: string, email: string) => {
   }
 };
 
-const htmlTemplate = (token: string) => {
+// Function to generate the HTML template for the email
+const htmlTemplate = (token: string): string => {
   const host = process.env.APP_HOSTNAME;
   return `<!doctype html>
     <html>

@@ -6,7 +6,7 @@ import { error } from 'console';
 import { hashPass } from '@/lib/hash';
 
 interface RegisterData{
-    name :String
+    name :string
 }
 
 export async function POST(req : NextRequest) {
