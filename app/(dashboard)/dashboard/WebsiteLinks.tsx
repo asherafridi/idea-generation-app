@@ -33,11 +33,18 @@ export default function WebsiteLinks() {
 
   const handleSubmit = () => {
     setBtnLoader(true);
+  
+    // If there's a new link in the input, add it to the links list before submission
+    if (newLink.trim() !== "") {
+      setLinks((prev) => [...prev, newLink]);
+      setNewLink("");
+    }
+  
     axios
       .post(
         "https://scrape.vetaai.com/scrape",
         {
-          urls: links,
+          urls: [...links, newLink.trim()],
         },
         {
           headers: {
@@ -53,12 +60,10 @@ export default function WebsiteLinks() {
       .catch((error) => {
         setBtnLoader(false);
         if (axios.isAxiosError(error)) {
-          // Axios-specific error handling
           console.error("Axios error:", error.message);
           toast.error(error.message);
           console.error("Response:", error.response?.data);
         } else {
-          // Generic error handling
           console.error("Unexpected error:", error);
         }
       });
@@ -100,9 +105,8 @@ export default function WebsiteLinks() {
                 key={index}
                 className="flex items-center justify-between p-4 border bg-background rounded-lg text-foreground shadow-sm hover:shadow-md"
               >
-                <span className="text-foreground   break-all font-body">
-                  {link}
-                </span>
+                <input className="text-foreground w-full mr-4   break-all font-body" value={link} />
+                  
                 <button
                   onClick={() => handleDeleteLink(index)}
                   className="text-[#368DFF] hover:text-red-700 focus:outline-none"

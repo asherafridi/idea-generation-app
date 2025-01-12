@@ -119,7 +119,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
          navigator.clipboard.writeText(card.idea);
         toast.success("Idea Copied!")
       }}
-        className="absolute right-4 p-2 -bottom-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
+        className="absolute right-4  p-2 -bottom-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
         aria-label="Copy content"
       >
         <svg

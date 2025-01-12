@@ -52,7 +52,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
     </div>
     <p className="mt-2 text-sm text-gray-700">{card.idea}</p>
     <button
-      className="absolute right-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
+      className="absolute right-4 -bottom-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
       aria-label="Copy content"
       onClick={()=>{
         navigator.clipboard.writeText(card.idea);

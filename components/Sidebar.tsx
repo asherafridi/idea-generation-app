@@ -128,7 +128,7 @@ export const Sidebar: React.FC = () => {
 
           {/* Menu Items */}
           <div
-            className={`mt-32 font-heading font-medium text-sm flex flex-col gap-2`}
+            className={`mt-24 font-heading font-medium text-sm flex flex-col gap-2`}
           >
             <ProfileMenu isExpanded={isExpanded} />
 
