@@ -89,6 +89,11 @@ const Page: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (formData.concept.length < 100) {
+      toast.error("Please provide a concept with at least 20 characters.");
+      return;
+    }
     setBtnLoader(true);
 
     try {
@@ -178,6 +183,7 @@ const Page: React.FC = () => {
               name="concept"
               placeholder="Provide your product/services concept here..."
               rows={8}
+              minLength={20}
               value={formData.concept}
               onChange={handleInputChange}
               className="w-full bg-background p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
