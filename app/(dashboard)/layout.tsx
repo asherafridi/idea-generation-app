@@ -19,7 +19,7 @@ export default function RootLayout({
     <SidebarProvider>
       <main className="w-full flex">
         <Sidebar />
-        <div className="w-full lg:pl-24 pb-24"><IdeaProvider>{children}</IdeaProvider></div>
+        <div className="w-full lg:pl-24"><IdeaProvider>{children}</IdeaProvider></div>
         <Toaster position="top-right" />
       </main>
     </SidebarProvider>

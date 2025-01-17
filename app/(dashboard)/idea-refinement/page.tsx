@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Snowflake } from "lucide-react";
+import { ArrowLeft, CircleDashed, Snowflake } from "lucide-react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import FormButton from "@/components/FormButton";
@@ -54,10 +54,10 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
     <button
       className="absolute right-4 -bottom-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
       aria-label="Copy content"
-      onClick={()=>{
+      onClick={() => {
         navigator.clipboard.writeText(card.idea);
-       toast.success("Idea Copied!");
-     }}
+        toast.success("Idea Copied!");
+      }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,9 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
 const Page: React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [refineBtnLoader, setRefineBtnLoader] = useState(false);
-  const { selectedIdeas } = useIdea();
+  const [prototypeBtnLoader, setPrototypeBtnLoader] = useState(false);
+  const [chatBtnLoader, setChatBtnLoader] = useState(false);
+  const { selectedIdeas, setPrototypeText } = useIdea();
   const cards: Card[] = selectedIdeas || []; // Ensure cards is always an array.
   const router = useRouter();
 
@@ -124,29 +126,57 @@ const Page: React.FC = () => {
   const handleIdeaRefine = async () => {
     setRefineBtnLoader(true);
     if (selectedCard) {
-      console.log("Refining Idea:", selectedCard);
       try {
         const response = await axios.post<RefineIdeaResponse>(
           "https://idea.vetaai.com/api/v1/refine-idea",
-          { idea_text: selectedIdeas[selectedCard.idea_id].idea },
+          { idea_text: selectedCard.idea },
           { headers: { "Content-Type": "application/json" } }
         );
+
         setSelectedCard((prev) =>
           prev
-            ? { ...prev, idea: formatResponse(response.data.refined_idea) as unknown as string }
+            ? { ...prev, idea: response.data.refined_idea } // Ensure it's a string
             : null
         );
+
+        toast.success("Idea refined successfully!");
       } catch (error) {
         console.error("Error refining idea:", error);
+        toast.error("Failed to refine idea. Please try again.");
       } finally {
         setRefineBtnLoader(false);
       }
     } else {
       setRefineBtnLoader(false);
-      console.log("No card selected to refine.");
+      toast.error("Please select an idea to refine.");
     }
   };
 
+  const handleIdeaPrototype = () => {
+    setPrototypeBtnLoader(true);
+    setPrototypeText(selectedCard.idea);
+    router.push("/idea-prototype");
+    setPrototypeBtnLoader(false);
+  };
+
+  const handleChat = () => {
+    setChatBtnLoader(true);
+    const response = axios
+      .post("/api/chat-assistant", {
+        text: selectedCard.idea,
+      })
+      .then((res) => {
+        console.log(res);
+        toast.success("Chat Initialized");
+        setChatBtnLoader(false);
+        router.push("/chat-assistant");
+      })
+      .catch((e) => {
+        console.log(e);
+        setChatBtnLoader(false);
+        toast.error("Something Went Wrong!");
+      });
+  };
   return (
     <div className="w-full">
       <IdeaBar menu="refinement" />
@@ -180,10 +210,12 @@ const Page: React.FC = () => {
             </Button>
             <div className="w-full mt-6 bg-background p-4 rounded-lg border border-2 border-blue-400 font-body min-h-[400px] max-h-[400px] overflow-y-auto">
               <h2 className="text-xl font-semibold font-heading text-blue-700">
-                {selectedCard?.title || "No card selected"}
+                {selectedCard?.title || "No idea selected"}
               </h2>
               <p className="mt-2 text-gray-700">
-                {selectedCard?.idea || "Please select a card to see the details."}
+                {selectedCard?.idea
+                  ? formatResponse(selectedCard?.idea)
+                  : "Please select a idea to see the details."}
               </p>
             </div>
             <div className="w-full flex flex-col md:flex-row justify-end mt-6 gap-4">
@@ -193,13 +225,17 @@ const Page: React.FC = () => {
                 onClick={handleIdeaRefine}
                 className="w-full md:w-2/5 h-16 hover:bg-blue-600 hover:text-white"
               />
+              <FormButton
+                state={prototypeBtnLoader}
+                text="Prototype"
+                onClick={handleIdeaPrototype}
+                className="w-full md:w-2/5 h-16 hover:bg-blue-600 hover:text-white"
+              />
               <Button
-                variant="outline"
-                className="bg-background font-body text-xl w-full md:w-2/5 h-16"
+                className={`bg-primary font-body text-primary border-primary border h-16 w-1/5 text-xl rounded-xl  ${chatBtnLoader && 'animate-pulse'}`}
+                disabled={chatBtnLoader} // Disable the button when `state` is true
+                onClick={handleChat} // Attach the onClick handler
               >
-                View Prototype
-              </Button>
-              <Button className="w-full md:w-1/5 h-16 ">
                 <Image src="/chat.png" width={50} height={50} alt="Chat" />
               </Button>
             </div>

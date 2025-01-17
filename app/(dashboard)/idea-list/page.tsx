@@ -50,7 +50,7 @@ const Page: React.FC = () => {
       <IdeaBar menu="list" />
 
       <div className="w-full mt-4">
-        <div className="w-full flex px-6 gap-[480px]">
+        <div className="w-full flex justify-between px-6 gap-[480px]">
           <Button
             variant={"outline"}
             className="font-body py-6 flex gap-4 bg-background text-xl"
@@ -60,6 +60,14 @@ const Page: React.FC = () => {
           >
             <ArrowLeft /> Back
           </Button>
+
+          <Button
+          variant={"default"}
+          className="font-body py-6 flex gap-4 bg-blue-600 text-xl text-white"
+          onClick={handleNext}
+        >
+           Next <ArrowRight />
+        </Button>
         </div>
 
         {/* Selectable Grid */}
@@ -76,13 +84,7 @@ const Page: React.FC = () => {
       </div>
 
       <div className="px-8 flex justify-end">
-        <Button
-          variant={"default"}
-          className="font-body py-6 flex gap-4 bg-blue-600 text-xl text-white"
-          onClick={handleNext}
-        >
-          <ArrowRight /> Next
-        </Button>
+        
       </div>
     </div>
   );

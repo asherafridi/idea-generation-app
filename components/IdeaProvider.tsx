@@ -22,6 +22,8 @@ interface IdeaContextType {
   setIdeas: Dispatch<SetStateAction<Idea[]>>;
   selectedIdeas: Idea[]; // Selected ideas
   setSelectedIdeas: Dispatch<SetStateAction<Idea[]>>;
+  prototypeText: string | undefined;
+  setPrototypeText: Dispatch<SetStateAction<string | undefined>>;
 }
 
 // Create the context with a default value of `null`
@@ -36,6 +38,7 @@ export const IdeaProvider: React.FC<IdeaProviderProps> = ({ children }) => {
   const [text, setText] = useState<string | undefined>(undefined);
   const [ideas, setIdeas] = useState<Idea[]>([]); // Default empty array
   const [selectedIdeas, setSelectedIdeas] = useState<Idea[]>([]);
+  const [prototypeText, setPrototypeText] = useState<string | undefined>(undefined);
 
   return (
     <IdeaContext.Provider
@@ -46,6 +49,8 @@ export const IdeaProvider: React.FC<IdeaProviderProps> = ({ children }) => {
         setIdeas,
         selectedIdeas,
         setSelectedIdeas,
+        prototypeText,
+        setPrototypeText
       }}
     >
       {children}

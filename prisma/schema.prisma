@@ -20,4 +20,7 @@ model User {
   name                     String?
   password                 String
   status                   Boolean        @default(false)
+  apiKey                   String?
+  knowledgeBaseId          String?
+  userId                   String?
 }

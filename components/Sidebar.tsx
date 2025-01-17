@@ -147,7 +147,7 @@ export const Sidebar: React.FC = () => {
         <div className="font-heading font-medium text-sm flex flex-col gap-2 pb-2">
           {/* Chat Section */}
           <Link
-            href="#"
+            href="/chat-assistant"
             className={`w-full flex items-center gap-2 px-4 mb-4 ${
               isExpanded ? "text-md" : "justify-center"
             }`}
