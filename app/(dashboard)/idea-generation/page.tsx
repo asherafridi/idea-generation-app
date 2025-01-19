@@ -9,6 +9,8 @@ import { useIdea } from "@/components/IdeaProvider";
 import { Button } from "@/components/ui/button";
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
 import FormButton from "@/components/FormButton";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface FormData {
   ideaName: string;
@@ -90,7 +92,7 @@ const Page: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.concept.length < 100) {
+    if (formData.concept.length < 20) {
       toast.error("Please provide a concept with at least 20 characters.");
       return;
     }
@@ -133,73 +135,69 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full pb-16">
       <IdeaBar menu="generation" />
-
-      <div className="max-w-4xl mx-auto  mt-16 md:mt-32 flex flex-col items-center">
-        <h1 className="font-heading text-5xl font-semibold">Generate Ideas</h1>
-        <p className=" px-4 text-center mt-4 font-body text-gray-800">
-          Brainstorm new ideas for your business in a few seconds.
-        </p>
-        <form className="w-full px-4 md:w-[500px] mt-4" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="ideaName"
-            placeholder="Enter Idea Name"
-            value={formData.ideaName}
-            onChange={handleInputChange}
-            className="w-full bg-background p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
-          />
-          <div className="relative w-full mt-4">
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-              className="w-full bg-background p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600 appearance-none"
-            >
-              <option>Smart Cities</option>
-              <option>Artificial Intelligence</option>
-              <option>Blockchain</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 text-blue-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-          </div>
-          <div className="relative w-full mt-4">
-            <textarea
-              name="concept"
-              placeholder="Provide your product/services concept here..."
-              rows={8}
-              minLength={20}
-              value={formData.concept}
+      <div className="flex items-center justify-center px-16 gap-48 pt-16 md:pt-32">
+        <div className="max-w-5xl    flex flex-col items-center">
+          <h1 className="font-heading text-5xl font-semibold">
+            Generate Ideas
+          </h1>
+          <p className=" px-4 text-center mt-4 font-body text-gray-800">
+            Brainstorm new ideas for your business in a few seconds.
+          </p>
+          <form
+            className="w-full px-4 md:w-[600px] mt-4"
+            onSubmit={handleSubmit}
+          >
+            <input
+              type="text"
+              name="ideaName"
+              placeholder="Enter Idea Name"
+              value={formData.ideaName}
               onChange={handleInputChange}
               className="w-full bg-background p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
-            ></textarea>
-            <div className="absolute top-3 right-3 flex items-center justify-center w-6 h-6 rounded-full border border-blue-600 text-blue-600 bg-white">
-              <QuestionMarkIcon />
-            </div>
-          </div>
-          <div className="mt-4 w-full flex justify-center">
-            <FormButton
-              state={btnLoader}
-              text="Generate Idea"
-              onClick={handleSubmit}
             />
-          </div>
-        </form>
+            <input
+              type="text"
+              name="category"
+              placeholder="Smart Cities"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="w-full bg-background mt-4 p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
+            />
+            <div className="relative w-full mt-4">
+              <textarea
+                name="concept"
+                placeholder="Provide your product/services concept here..."
+                rows={8}
+                minLength={20}
+                value={formData.concept}
+                onChange={handleInputChange}
+                className="w-full bg-background p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
+              ></textarea>
+              <div className="absolute top-3 right-3 flex items-center justify-center w-6 h-6 rounded-full border border-blue-600 text-blue-600 bg-white">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                    <QuestionMarkIcon /></TooltipTrigger>
+                    <TooltipContent>
+                      <p className="w-[300px] break-words font-body">Provide a clear and detailed description focusing on the key aspects of your idea. Include specific goals, relevant details, and any desired style or context to ensure accurate results.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+              </div>
+            </div>
+            <div className="mt-4 w-full flex justify-center">
+              <FormButton
+                state={btnLoader}
+                text="Generate Idea"
+                onClick={handleSubmit}
+              />
+            </div>
+          </form>
+        </div>
+        <div className="generation-image w-[500px] h-[400px] bg-transparent"></div>
       </div>
     </div>
   );

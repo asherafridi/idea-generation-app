@@ -3,6 +3,7 @@ import {
   File,
   Flame,
   Globe,
+  History,
   LogOut,
   PanelLeft,
   Settings,
@@ -86,15 +87,15 @@ export const Sidebar: React.FC = () => {
   const router = useRouter();
 
   const items: SidebarItemProps[] = [
-    { href: "/dashboard?tab=social", Icon: <Twitter />, label: "Social Media" },
-    { href: "/dashboard?tab=data", Icon: <Flame />, label: "Data Connect" },
+    { href: "/dashboard?tab=social", Icon: <Twitter fill="#000" />, label: "Social Media" },
+    { href: "/dashboard?tab=data", Icon: <Flame fill="#000" />, label: "Data Connect" },
     {
       href: "/dashboard?tab=document",
-      Icon: <File />,
+      Icon: <File fill="#000" stroke="#fff" />,
       label: "Upload Document",
     },
-    { href: "/dashboard?tab=website", Icon: <Globe />, label: "Website Link" },
-    { href: "/settings", Icon: <Twitch />, label: "History" },
+    { href: "/dashboard?tab=website", Icon: <Globe fill="#000" stroke="#fff" />, label: "Website Link" },
+    { href: "/settings", Icon: <History  />, label: "History" },
   ];
 
   const logout = () => {
@@ -106,7 +107,7 @@ export const Sidebar: React.FC = () => {
     <>
       {/* Sidebar */}
       <div
-        className={`fixed top-0 h-screen transition-all duration-300 ease-in-out bg-sidebar z-50 md:z-auto overflow-hidden text-sidebar-foreground flex flex-col justify-between ${
+        className={`sidebar overflow-y-auto fixed px-2 max-h-screen  top-0 h-screen transition-all duration-300 ease-in-out bg-sidebar z-50 md:z-auto overflow-hidden text-sidebar-foreground flex flex-col justify-between ${
           isExpanded ? "left-0 w-72" : "-left-72 w-72 lg:left-0 lg:w-24"
         }`}
       >
@@ -144,7 +145,7 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Chat Image and Logout Section */}
-        <div className="font-heading font-medium text-sm flex flex-col gap-2 pb-2">
+        <div className="font-body font-medium text-sm flex flex-col gap-2 pb-2 mt-8">
           {/* Chat Section */}
           <Link
             href="/chat-assistant"
@@ -194,7 +195,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
   return (
     <Link
       href={href}
-      className={`w-full py-2 rounded flex items-center hover:bg-gray-200 ${
+      className={`w-full py-2 rounded flex items-center font-body font-medium hover:bg-gray-200 dark:hover:bg-gray-800 ${
         isExpanded ? "flex-row px-4 gap-2" : "flex-col gap-1"
       }`}
     >

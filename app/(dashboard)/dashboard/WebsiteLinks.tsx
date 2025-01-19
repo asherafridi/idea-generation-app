@@ -105,7 +105,7 @@ export default function WebsiteLinks() {
                 key={index}
                 className="flex items-center justify-between p-4 border bg-background rounded-lg text-foreground shadow-sm hover:shadow-md"
               >
-                <input className="text-foreground w-full mr-4   break-all font-body" value={link} />
+                <input className="text-foreground w-full mr-4  bg-background  break-all font-body" value={link} />
                   
                 <button
                   onClick={() => handleDeleteLink(index)}

@@ -36,7 +36,7 @@ interface InfoCardProps {
 const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
   <div
     onClick={() => onSelect(card)}
-    className={`relative w-full lg:max-w-sm p-6 bg-white border rounded-2xl shadow-lg cursor-pointer ${
+    className={`relative w-full lg:max-w-sm p-6 bg-background border rounded-2xl shadow-lg cursor-pointer ${
       isSelected ? "border-blue-600 ring-2 ring-blue-400" : "border-blue-400"
     }`}
   >
@@ -50,7 +50,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
         <ArrowTopRightIcon />
       </a>
     </div>
-    <p className="mt-2 text-sm text-gray-700">{card.idea}</p>
+    <p className="mt-2 text-sm text-foreground">{card.idea}</p>
     <button
       className="absolute right-4 -bottom-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
       aria-label="Copy content"
@@ -154,9 +154,17 @@ const Page: React.FC = () => {
 
   const handleIdeaPrototype = () => {
     setPrototypeBtnLoader(true);
-    setPrototypeText(selectedCard.idea);
-    router.push("/idea-prototype");
+    if(selectedCard.idea !== null){
+
+      setPrototypeText(selectedCard.idea);
+      router.push("/idea-prototype");
+      
     setPrototypeBtnLoader(false);
+    }else{
+      
+    setPrototypeBtnLoader(false);
+      toast.error("Please select an Idea");
+    }
   };
 
   const handleChat = () => {
@@ -176,6 +184,7 @@ const Page: React.FC = () => {
         setChatBtnLoader(false);
         toast.error("Something Went Wrong!");
       });
+      
   };
   return (
     <div className="w-full">
@@ -212,7 +221,7 @@ const Page: React.FC = () => {
               <h2 className="text-xl font-semibold font-heading text-blue-700">
                 {selectedCard?.title || "No idea selected"}
               </h2>
-              <p className="mt-2 text-gray-700">
+              <p className="mt-2 text-foreground">
                 {selectedCard?.idea
                   ? formatResponse(selectedCard?.idea)
                   : "Please select a idea to see the details."}

@@ -45,16 +45,16 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ logo, title }) => {
   };
 
   return (
-    <div className="w-full bg-background border hover:shadow-lg rounded-lg flex flex-col items-center justify-center font-body p-4 py-16">
+    <div className="w-full bg-background   border-2 dark:border-blue-800 hover:shadow-lg rounded-xl flex flex-col items-center justify-center font-body p-4 lp:p-4 lg:py-10">
       <img src={logo} className="w-16" alt={`${title} Logo`} />
-      <h3 className="text-2xl mt-2 font-body font-medium">{title}</h3>
+      <h3 className="text-2xl mt-2 font-body font-medium text-foreground">{title}</h3>
       <form
         className="w-full mt-12 flex flex-col items-center"
         onSubmit={handleSubmit}
       >
         <input
           type="text"
-          className="w-[80%] py-2 text-md bg-background rounded-lg border border-gray-400 px-4 font-body"
+          className="w-[80%] py-2 text-md bg-background rounded-lg border outline-blue-600 border-blue-400 px-4 font-body"
           placeholder={`Enter ${title} Link`}
           value={link}
           onChange={(e) => setLink(e.target.value)}
@@ -63,7 +63,7 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ logo, title }) => {
           state={btnLoader}
           text="Connect"
           onClick={() => {}}
-          className="w-[80%] h-12 text-md mt-4 bg-[rgba(106,68,255,0.2)] rounded-lg text-blue-800 border-blue-800 border"
+          className="w-[80%] h-12 text-md mt-4 bg-[rgba(106,68,255,0.2)] hover:bg-[#6A44FF] hover:text-white rounded-lg text-blue-800 border-blue-800 border"
         />
       </form>
     </div>

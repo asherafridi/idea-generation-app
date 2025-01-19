@@ -225,8 +225,26 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
     recognition.stop();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        // Create a new line
+        const cursorPos = e.target.selectionStart;
+        const textBefore = input.substring(0, cursorPos);
+        const textAfter = input.substring(cursorPos);
+        setInput(`${textBefore}\n${textAfter}`);
+        e.target.selectionEnd = cursorPos + 1; // Move cursor to the next line
+        e.preventDefault();
+      } else {
+        // Submit the form
+        e.preventDefault(); // Prevent default Enter behavior
+        handleSendMessage();
+      }
+    }
+  };
+
   return (
-    <div className="row gpt font-body">
+    <div className="row gpt font-body bg-background">
       <div className="w-full border-b px-32 py-6 flex items-center gap-6">
         <Button
           variant="outline"
@@ -264,13 +282,14 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
             )}
           </main>
             <div className="px-12 ">
-          <form className="msger-inputarea relative" onSubmit={handleSendMessage}>
+          <form className="msger-inputarea relative dark:border dark:border-blue-800 " onSubmit={handleSendMessage}>
             
             <textarea
               className="msger-input"
               placeholder="Enter your message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
             >{input}</textarea >
             <div className="flex absolute bottom-2 right-2">
             <button

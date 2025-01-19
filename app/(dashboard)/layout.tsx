@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IdeaProvider } from "@/components/IdeaProvider";
 
+import Head from "next/head";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -17,6 +19,10 @@ export default function RootLayout({
   }
   return (
     <SidebarProvider>
+      
+      {/* <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.1" />
+      </Head> */}
       <main className="w-full flex">
         <Sidebar />
         <div className="w-full lg:pl-24"><IdeaProvider>{children}</IdeaProvider></div>

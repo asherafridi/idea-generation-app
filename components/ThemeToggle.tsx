@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Switch } from "@/components/ui/switch"; // Adjust the import path as needed
 
 export default function ThemeToggle() {
     const [theme, setTheme] = useState<string>("light");
@@ -10,12 +11,12 @@ export default function ThemeToggle() {
         const storedTheme = localStorage.getItem("theme") || "light";
         setTheme(storedTheme);
         document.documentElement.setAttribute("data-theme", storedTheme);
-        document.getElementsByTagName('body')[0].classList.add(storedTheme);
+        document.body.classList.add(storedTheme);
     }, []);
 
     // Toggle theme handler
-    const toggleTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light";
+    const toggleTheme = (isDark: boolean) => {
+        const newTheme = isDark ? "dark" : "light";
 
         // Update state
         setTheme(newTheme);
@@ -32,10 +33,13 @@ export default function ThemeToggle() {
     };
 
     return (
-        <button
-            onClick={toggleTheme}
-        >
-            {theme === "light" ? "Dark Mode" : "Light Mode"}
-        </button>
+        <div className="flex items-center space-x-2">
+            <span>Light</span>
+            <Switch
+                checked={theme === "dark"}
+                onCheckedChange={(isChecked) => toggleTheme(isChecked)}
+            />
+            <span>Dark</span>
+        </div>
     );
 }

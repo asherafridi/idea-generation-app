@@ -96,7 +96,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
   return (
     <div
       onClick={() => onSelect(card.idea_id)}
-      className={`relative max-w-sm p-6 bg-white border rounded-2xl shadow-lg cursor-pointer ${
+      className={`relative max-w-sm p-6 bg-background border rounded-2xl shadow-lg cursor-pointer ${
         isSelected ? "border-blue-600 ring-2 ring-blue-400" : "border-blue-400"
       }`}
     >
@@ -113,7 +113,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
       </div>
 
       {/* Description */}
-      <p className="mt-2 text-sm text-gray-700">{card.idea}</p>
+      <p className="mt-2 text-sm text-foreground">{card.idea}</p>
 
       {/* Action Button */}
       <button

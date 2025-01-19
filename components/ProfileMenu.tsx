@@ -17,11 +17,11 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
     <Dialog>
       <DialogTrigger>
         <button
-          className={`w-full py-2 rounded flex items-center hover:bg-gray-200 ${
+          className={`w-full py-2 rounded flex items-center  font-body font-medium  hover:bg-gray-200 dark:hover:bg-gray-800 ${
             isExpanded ? "flex-row px-4 gap-2" : "flex-col gap-1"
           }`}
         >
-          <User />
+          <User fill="#000" />
           <span className={`text-center`}>Profile</span>
         </button>
       </DialogTrigger>

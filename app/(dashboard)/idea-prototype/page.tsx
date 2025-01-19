@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import axios from "axios";
 import { useIdea } from "@/components/IdeaProvider";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Interface for card data
 interface Card {
@@ -27,10 +28,7 @@ const Page: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
-  const {prototypeText} = useIdea();
-
-  
-
+  const { prototypeText } = useIdea();
 
   // Fetch cards from the API
   useEffect(() => {
@@ -55,7 +53,6 @@ const Page: React.FC = () => {
     fetchCards();
   }, []);
 
-
   return (
     <div className="w-full pb-16">
       <IdeaBar menu="prototype" />
@@ -71,25 +68,32 @@ const Page: React.FC = () => {
           </Button>
         </div>
         <div className="flex justify-center flex-col items-center mt-4">
-          <h1 className="font-heading font-bold text-6xl">Prototype & Components</h1>
+          <h1 className="font-heading font-bold text-6xl">
+            Prototype & Components
+          </h1>
           <p className="font-body mt-4 text-lg">
-            A list or grid view showing potential partners or components relevant to the selected idea.
+            A list or grid view showing potential partners or components
+            relevant to the selected idea.
           </p>
         </div>
-        <div className="gap-4 mt-8 px-6 grid grid-cols-4 mx-48">
-          {loading ? (
-            <p className="text-center text-lg">Loading...</p>
-          ) : cards.length > 0 ? (
-            cards.map((card, index) => (
-              <ProtoTypeCard
-                key={index}
-                card={card}
-              />
-            ))
-          ) : (
-            <p className="text-center text-lg">No results found.</p>
-          )}
-        </div>
+        
+        {loading ? (
+          
+          <div className="gap-4 mt-8 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-32">
+            <Skeleton className="w-full h-[300px]  bg-gray-100 " />
+            <Skeleton className="w-full h-[300px]  bg-gray-100 " />
+            <Skeleton className="w-full h-[300px]  bg-gray-100 " />
+            <Skeleton className="w-full h-[300px] bg-gray-100 " />
+            </div>
+        ) : cards.length > 0 ? (
+          <div className="gap-4 mt-8 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-32">
+            {cards.map((card, index) => (
+              <ProtoTypeCard key={index} card={card} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-lg">No results found.</p>
+        )}
       </div>
     </div>
   );
@@ -97,40 +101,40 @@ const Page: React.FC = () => {
 
 // InfoCard Component
 const ProtoTypeCard: React.FC<InfoCardProps> = ({ card }) => {
+  function getDomainName(link) {
+    try {
+      const url = new URL(link);
+      return url.hostname; // Returns the domain name
+    } catch (error) {
+      console.error("Invalid URL:", error);
+      return null;
+    }
+  }
 
-    function getDomainName(link) {
-        try {
-          const url = new URL(link);
-          return url.hostname; // Returns the domain name
-        } catch (error) {
-          console.error("Invalid URL:", error);
-          return null;
-        }
-      }
-    
-    
-    return (
-  <div className="p-4 border rounded-xl font-body shadow-md bg-white relative pb-24">
-    <div className="flex justify-between items-start">
-      <h3 className="text-lg font-semibold text-blue-600">{getDomainName(card.link)}</h3>
-      <a
-        href={card.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-600 hover:text-blue-800"
-        aria-label="Open in new tab"
-      >
-        <ArrowTopRightIcon />
-      </a>
+  return (
+    <div className="p-4 w-full border rounded-xl font-body shadow-md bg-background relative pb-24">
+      <div className="flex justify-between items-start">
+        <h3 className="text-md font-semibold text-blue-600 break-words">
+          {getDomainName(card.link)}
+        </h3>
+        <a
+          href={card.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800"
+          aria-label="Open in new tab"
+        >
+          <ArrowTopRightIcon />
+        </a>
+      </div>
+      <p className="mt-2 text-foreground text-sm mb-4">{card.description}</p>
+      <Link href={card.link} className="absolute bottom-4" target="_blank">
+        <button className="bg-primary px-10 text-xl py-2 rounded-full text-white border-2 border-blue-600 hover:bg-blue-700 hover:text-white">
+          Visit
+        </button>
+      </Link>
     </div>
-    <p className="mt-2 text-gray-700 text-md mb-4">{card.description}</p>
-    <Link href={card.link} className="absolute bottom-4" target="_blank">
-      <button className="bg-blue-200 px-10 text-xl py-4 rounded-full text-blue-600 border-2 border-blue-600">
-        Explore
-      </button>
-    </Link>
-  </div>
-)    
+  );
 };
 
 export default Page;

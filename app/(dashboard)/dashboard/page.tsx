@@ -33,11 +33,11 @@ export default function Home() {
   ];
 
   return (
-    <div className="px-2 lg:px-8">
+    <div className="px-2 lg:px-8 pb-8">
       <h1 className="text-center font-heading text-5xl font-medium mb-6 text-[#368DFF] mt-4">
         Ideation Studio
       </h1>
-      <div className="flex w-full bg-background h-auto lg:h-16 font-body rounded-xl overflow-hidden relative shadow-lg">
+      <div className="flex w-full bg-background dark:border dark:border-blue-700 h-auto lg:h-16 font-body rounded-xl overflow-hidden relative shadow-lg">
         {tabs.map((item) => (
           <button
             key={item.id}
