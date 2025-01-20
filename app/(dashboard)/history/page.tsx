@@ -35,14 +35,14 @@ const Page: React.FC = () => {
     const fetchCards = async () => {
       try {
         setLoading(true);
-        const response = await axios.post(
-          "https://idea.vetaai.com/search",
-          { idea: prototypeText },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        setCards(response.data.results || []);
+        // const response = await axios.post(
+        //   "https://idea.vetaai.com/search",
+        //   { idea: prototypeText },
+        //   {
+        //     headers: { "Content-Type": "application/json" },
+        //   }
+        // );
+        // setCards(response.data.results || []);
         setLoading(false);
       } catch (error) {
         toast.error("Failed to fetch data. Please try again.");
@@ -55,52 +55,22 @@ const Page: React.FC = () => {
 
   return (
     <div className="w-full pb-16">
-      <IdeaBar menu="prototype" />
-      <div className="w-full mt-4">
-        <div className="w-full flex px-6 gap-[480px]">
-          <Button
-            variant="outline"
-            className="font-body py-6 flex gap-4 bg-background text-xl"
-            onClick={() => router.back()}
-            aria-label="Go Back"
-          >
-            <ArrowLeft /> Back
-          </Button>
-        </div>
-        <div className="flex justify-center flex-col items-center mt-4">
-          <h1 className="font-heading font-bold text-6xl">
-            Prototype & Components
-          </h1>
-          <p className="font-body mt-4 text-lg">
-            A list or grid view showing potential partners or components
-            relevant to the selected idea.
-          </p>
-        </div>
-        
-        {loading ? (
-          
-          <div className="gap-4 mt-8 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-32">
-            <Skeleton className="w-full h-[300px]  bg-gray-100 " />
-            <Skeleton className="w-full h-[300px]  bg-gray-100 " />
-            <Skeleton className="w-full h-[300px]  bg-gray-100 " />
-            <Skeleton className="w-full h-[300px] bg-gray-100 " />
-            </div>
-        ) : cards.length > 0 ? (
-          <div className="gap-4 mt-8 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-32">
-            {cards.map((card, index) => (
-              <ProtoTypeCard key={index} card={card} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-lg">No results found.</p>
-        )}
+      <div className="w-full border-b px-32 py-6 flex items-center gap-6">
+        <Button
+          variant="outline"
+          className="font-body py-6 flex gap-4 bg-background text-xl"
+          onClick={() => router.back()}
+        >
+          <ArrowLeft /> Back
+        </Button>
+        <h1 className="font-heading text-4xl font-bold">Idea History</h1>
       </div>
     </div>
   );
 };
 
 // InfoCard Component
-const ProtoTypeCard: React.FC<InfoCardProps> = ({ card }) => {
+const HistoryCard: React.FC<InfoCardProps> = ({ card }) => {
   function getDomainName(link) {
     try {
       const url = new URL(link);

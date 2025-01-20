@@ -95,7 +95,7 @@ export const Sidebar: React.FC = () => {
       label: "Upload Document",
     },
     { href: "/dashboard?tab=website", Icon: <Globe fill="#000" stroke="#fff" />, label: "Website Link" },
-    { href: "/settings", Icon: <History  />, label: "History" },
+    { href: "/history", Icon: <History  />, label: "History" },
   ];
 
   const logout = () => {
