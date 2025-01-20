@@ -73,7 +73,7 @@ const combinedText = Object.values(response.data).join(' ');
 
   return (
     <div className="w-full mx-auto p-6 font-body">
-      <h1 className="text-foreground mt-12 mb-4 text-3xl font-body font-medium">
+      <h1 className="text-foreground mt-12 mb-4 text-3xl font-body font-medium font-heading">
         Add Document
       </h1>
       <div className="flex flex-col items-center max-w-4xl mx-auto">

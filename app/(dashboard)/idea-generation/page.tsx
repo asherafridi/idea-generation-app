@@ -32,7 +32,7 @@ interface Idea {
 }
 
 const Page: React.FC = () => {
-  const { text, setIdeas } = useIdea();
+  const { text, setIdeas,setName } = useIdea();
   const router = useRouter();
 
   // useEffect(() => {
@@ -60,7 +60,7 @@ const Page: React.FC = () => {
 
   const [formData, setFormData] = useState<FormData>({
     ideaName: "",
-    category: "Smart Cities",
+    category: "",
     concept: "",
     enhanced_text: text,
   });
@@ -118,6 +118,8 @@ const Page: React.FC = () => {
       if (response?.data?.ideas) {
         const enhance_ideas = convertToJSON(response.data.ideas);
         setIdeas(enhance_ideas);
+        setName(formData.ideaName);
+
         router.push("/idea-list");
       } else {
         throw new Error("Invalid response format");
@@ -142,7 +144,7 @@ const Page: React.FC = () => {
           <h1 className="font-heading text-5xl font-semibold">
             Generate Ideas
           </h1>
-          <p className=" px-4 text-center mt-4 font-body text-gray-800">
+          <p className=" px-4 text-center mt-4 font-body text-foreground">
             Brainstorm new ideas for your business in a few seconds.
           </p>
           <form
@@ -160,7 +162,7 @@ const Page: React.FC = () => {
             <input
               type="text"
               name="category"
-              placeholder="Smart Cities"
+              placeholder="Enter Idea Type"
               value={formData.category}
               onChange={handleInputChange}
               className="w-full bg-background mt-4 p-5 rounded-xl border-blue-400 border font-body outline-none focus:ring-1 ring-blue-600"
@@ -193,6 +195,7 @@ const Page: React.FC = () => {
                 state={btnLoader}
                 text="Generate Idea"
                 onClick={handleSubmit}
+                className="hover:bg-blue-600 hover:text-white"
               />
             </div>
           </form>

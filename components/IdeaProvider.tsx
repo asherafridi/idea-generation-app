@@ -16,6 +16,8 @@ interface Idea {
 
 // Define the context value type
 interface IdeaContextType {
+  name: string | undefined;
+  setName: Dispatch<SetStateAction<string | undefined>>;
   text: string | undefined;
   setText: Dispatch<SetStateAction<string | undefined>>;
   ideas: Idea[]; // Array of ideas
@@ -35,6 +37,7 @@ interface IdeaProviderProps {
 }
 
 export const IdeaProvider: React.FC<IdeaProviderProps> = ({ children }) => {
+  const [name, setName] = useState<string | undefined>(undefined);
   const [text, setText] = useState<string | undefined>(undefined);
   const [ideas, setIdeas] = useState<Idea[]>([]); // Default empty array
   const [selectedIdeas, setSelectedIdeas] = useState<Idea[]>([]);
@@ -43,6 +46,8 @@ export const IdeaProvider: React.FC<IdeaProviderProps> = ({ children }) => {
   return (
     <IdeaContext.Provider
       value={{
+        name,
+        setName,
         text,
         setText,
         ideas,

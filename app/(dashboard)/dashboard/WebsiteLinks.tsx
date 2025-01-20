@@ -71,7 +71,7 @@ export default function WebsiteLinks() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-foreground font-body mt-12 mb-4 text-3xl font-body font-medium flex justify-between items-center">
+      <h2 className="text-foreground font-heading mt-12 mb-4 text-3xl font-body font-medium flex justify-between items-center">
         Website Links
         <Button
           variant="outline"
@@ -121,7 +121,7 @@ export default function WebsiteLinks() {
         </div>
       </div>
       <div className="mt-6  max-w-xl mx-auto">
-        <FormButton text="Connect" state={btnLoader} onClick={handleSubmit} />
+        <FormButton text="Connect" state={btnLoader} onClick={handleSubmit} className="hover:bg-blue-600 hover:text-white" />
       </div>
     </div>
   );

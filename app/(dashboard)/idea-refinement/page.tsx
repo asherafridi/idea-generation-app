@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, CircleDashed, Snowflake } from "lucide-react";
+import { ArrowLeft, Bookmark, CircleDashed, Snowflake } from "lucide-react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import FormButton from "@/components/FormButton";
@@ -12,6 +12,7 @@ import IdeaBar from "@/components/IdeaBar";
 import { useIdea } from "@/components/IdeaProvider";
 import Markdown from "react-markdown";
 import toast from "react-hot-toast";
+import { Description } from "@radix-ui/react-dialog";
 
 // Interface for card data
 interface Card {
@@ -83,7 +84,8 @@ const Page: React.FC = () => {
   const [refineBtnLoader, setRefineBtnLoader] = useState(false);
   const [prototypeBtnLoader, setPrototypeBtnLoader] = useState(false);
   const [chatBtnLoader, setChatBtnLoader] = useState(false);
-  const { selectedIdeas, setPrototypeText } = useIdea();
+  const [saveBtnLoader, setSaveBtnLoader] = useState(false);
+  const { selectedIdeas, setPrototypeText,name } = useIdea();
   const cards: Card[] = selectedIdeas || []; // Ensure cards is always an array.
   const router = useRouter();
 
@@ -186,6 +188,31 @@ const Page: React.FC = () => {
       });
       
   };
+
+
+  const handleSaveIdea = () => {
+    setSaveBtnLoader(true);
+    const response = axios
+      .post("/api/idea/save", {
+        name: name,
+        title: selectedCard.title,
+        description : selectedCard.idea
+
+      })
+      .then((res) => {
+        console.log(res);
+        toast.error(res.data.error);
+        
+    setSaveBtnLoader(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        setSaveBtnLoader(false);
+        toast.error(e.response.data.error);
+      });
+      
+  };
+
   return (
     <div className="w-full">
       <IdeaBar menu="refinement" />
@@ -211,12 +238,15 @@ const Page: React.FC = () => {
             ))}
           </div>
           <div className="w-full lg:w-1/2 flex flex-col items-end p-6">
+          <div className="flex justify-end gap-4">
+            <Button  className={`h-14 text-white w-14 text-md hover:bg-blue-600 hover:text-white ${saveBtnLoader ? 'disabled' : ''}`} onClick={handleSaveIdea}><Bookmark size={94}/></Button>
             <Button variant="outline" className="h-14">
               <span className="text-xl">
                 <Snowflake size={36} />
               </span>
               Generate Diagram
             </Button>
+          </div>
             <div className="w-full mt-6 bg-background p-4 rounded-lg border border-2 border-blue-400 font-body min-h-[400px] max-h-[400px] overflow-y-auto">
               <h2 className="text-xl font-semibold font-heading text-blue-700">
                 {selectedCard?.title || "No idea selected"}

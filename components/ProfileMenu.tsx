@@ -11,8 +11,11 @@ import {
 } from "./ui/dialog";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import ThemeToggle from "./ThemeToggle";
+import { useSession } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
+  const session = useSession();
   return (
     <Dialog>
       <DialogTrigger>
@@ -32,9 +35,14 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
           </DialogTitle>
           <DialogDescription>
             <div className="flex w-full items-center flex-col">
-              <div className="w-16 h-16 rounded-full bg-gray-400"></div>
+              <Avatar className="w-16 h-16 text-xl">
+                <AvatarImage src="https://github.com/shadcn.pg" />
+                <AvatarFallback>
+                  {session.data?.user.name.substring(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
               <h1 className="font-body text-xl font-medium mt-4 text-foreground">
-                Company Name
+                {session.data?.user.name}
               </h1>
             </div>
 
@@ -42,28 +50,28 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
               <h3 className="text-lg text-foreground">Email</h3>
               <div className="flex items-center gap-2">
                 <Link href={"#"} className="text-blue-400 text-md">
-                  {"company@gmail.com"}
+                  {session.data?.user.email}
                 </Link>{" "}
-                <ArrowTopRightIcon />
               </div>
             </div>
 
             <div className="w-full border-b border-gray-500 font-body flex justify-between b py-3 px-2 mt-4 items-center">
               <h3 className="text-lg text-foreground">Theme</h3>
               <div className="flex items-center gap-2">
-                <ThemeToggle /> <ArrowTopRightIcon />
+                <ThemeToggle />
               </div>
             </div>
 
             <div className="w-full  font-body  b py-3 px-2 mt-4 ">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg text-foreground">Send Feedback</h3>
-                <div className="flex items-center gap-2">
-                  <ArrowTopRightIcon />
-                </div>
+                <div className="flex items-center gap-2"></div>
               </div>
-              
-              <span className="mt-2">Chatbot AI can make mistakes. Consider checking important information and send us your feedback</span>
+
+              <span className="mt-2">
+                Chatbot AI can make mistakes. Consider checking important
+                information and send us your feedback
+              </span>
             </div>
           </DialogDescription>
         </DialogHeader>

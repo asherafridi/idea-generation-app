@@ -20,7 +20,7 @@ let recognition: any;
 interface JSXMessage {
   sender: string;
   text: any;
-  time : string;
+  time: string;
 }
 
 const useFetchChatCredHook = () => {
@@ -48,7 +48,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
     {
       sender: assistantName || "Assistant",
       text: "Hi, welcome to ChatiDea! Go ahead and send me a message. 😄",
-      time : getTime24HourFormat()
+      time: getTime24HourFormat(),
     },
   ]);
 
@@ -62,7 +62,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
       {
         sender: randomName,
         text: "Hi, welcome its your chat assistant Go ahead and send me a message. 😄",
-        time : getTime24HourFormat()
+        time: getTime24HourFormat(),
       },
     ]);
   }, []);
@@ -72,10 +72,10 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
       SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
       recognition = new SpeechRecognition();
-  
+
       recognition.interimResults = true; // Enable partial results
       recognition.maxAlternatives = 1; // Simplify transcription
-  
+
       recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
         console.log("Speech detected:", transcript);
@@ -83,12 +83,12 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
         setIsListening(false);
         setShouldSend(!shouldSend);
       };
-  
+
       recognition.onend = () => {
         setIsListening(false);
         console.log("Speech recognition ended.");
       };
-  
+
       recognition.onerror = (event: any) => {
         if (event.error === "no-speech") {
           console.warn("No speech detected. Please try speaking again.");
@@ -122,12 +122,12 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
 
   function getTime24HourFormat() {
     const date = new Date();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-    
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+
     return `${hours}:${minutes}`;
-}
+  }
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -135,7 +135,11 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
 
     const newMessages = [
       ...messages,
-      { sender: username != "" ? username : "You", text: input, time : getTime24HourFormat() },
+      {
+        sender: username != "" ? username : "You",
+        text: input,
+        time: getTime24HourFormat(),
+      },
     ];
     setMessages(newMessages);
     setInput("");
@@ -165,20 +169,32 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
         const formattedResponse = formatResponse(apiResponse);
         const newMessageList = [
           ...newMessages,
-          { sender: assistantName, text: formattedResponse, time :  getTime24HourFormat()},
+          {
+            sender: assistantName,
+            text: formattedResponse,
+            time: getTime24HourFormat(),
+          },
         ];
         setMessages(newMessageList);
       } else {
         setMessages([
           ...newMessages,
-          { sender: assistantName, text: "Error: Failed to fetch response.", time:getTime24HourFormat() },
+          {
+            sender: assistantName,
+            text: "Error: Failed to fetch response.",
+            time: getTime24HourFormat(),
+          },
         ]);
       }
     } catch (error) {
       console.error("API Error:", error);
       setMessages([
         ...newMessages,
-        { sender: assistantName, text: "Error: Something went wrong.",time : getTime24HourFormat() },
+        {
+          sender: assistantName,
+          text: "Error: Something went wrong.",
+          time: getTime24HourFormat(),
+        },
       ]);
     } finally {
       setIsLoading(false); // Set loading state to false after the request completes
@@ -226,7 +242,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       if (e.shiftKey) {
         // Create a new line
         const cursorPos = e.target.selectionStart;
@@ -266,51 +282,64 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
                 }`}
               >
                 <div className="msg-bubble">
-                  {msg.sender===username ? <img src="/Avatar.png"/> : <img src="/chat.png" />}
-                  <div className="msg-text leading-1 max-w-[80%] relative pb-4">{msg.text} <span className="absolute right-4 bottom-1   text-xs">{msg.time}</span></div>
-    
+                  {msg.sender === username ? (
+                    <img src="/Avatar.png" />
+                  ) : (
+                    <img src="/chat.png" />
+                  )}
+                  <div className="msg-text leading-1 max-w-[80%] relative pb-4">
+                    {msg.text}{" "}
+                    <span className="absolute right-4 bottom-1   text-xs">
+                      {msg.time}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
             {isLoading && (
               <div className="msg left-msg">
                 <div className="msg-bubble">
-                <img src="/chat.png"/>
-                  <div className="msg-text">typing...</div>
+                  <img src="/chat.png" />
+                  <div className="msg-text typing">
+                    <span className="dot">.</span>
+                    <span className="dot">.</span>
+                    <span className="dot">.</span>
+                  </div>
                 </div>
               </div>
             )}
           </main>
-            <div className="px-12 ">
-          <form className="msger-inputarea relative dark:border dark:border-blue-800 " onSubmit={handleSendMessage}>
-            
-            <textarea
-              className="msger-input"
-              placeholder="Enter your message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-            >{input}</textarea >
-            <div className="flex absolute bottom-2 right-2">
-            <button
-              type="button"
-              className={`msger-mic-btn ${isListening ? "listening" : ""}`}
-              onClick={isListening ? stopListening : startListening}
+          <div className="px-12 ">
+            <form
+              className="msger-inputarea relative dark:border dark:border-blue-800 "
+              onSubmit={handleSendMessage}
             >
-              {isListening ? (
-                <Pause size={20}/>
-              ) : (
-                <Mic size={20} />
-              )}
-            </button>
-            <button type="submit" className="bg-primary rounded-full flex items-center text-center px-4 gap-2 text-white h-auto">
-              Send <SendHorizontal size={20} />
-            </button>
-            </div>
-            
-          </form>
-
-            </div>
+              <textarea
+                className="msger-input"
+                placeholder="Enter your message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+              >
+                {input}
+              </textarea>
+              <div className="flex absolute bottom-2 right-2 gap-2">
+                <button
+                  type="button"
+                  className={`msger-mic-btn ${isListening ? "listening" : ""}`}
+                  onClick={isListening ? stopListening : startListening}
+                >
+                  {isListening ? <Pause size={20} /> : <Mic size={20} />}
+                </button>
+                <button
+                  type="submit"
+                  className="bg-primary rounded-full flex items-center text-center px-4 gap-2 text-white h-auto"
+                >
+                  Send <SendHorizontal size={20} />
+                </button>
+              </div>
+            </form>
+          </div>
         </section>
       </div>
     </div>
