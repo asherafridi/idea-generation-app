@@ -114,7 +114,7 @@ export const Sidebar: React.FC = () => {
       >
         <div className="flex flex-col justify-between">
           {/* Logo Section */}
-          <div className="w-full flex items-center justify-start gap-2 px-4 mt-2">
+          <div className="w-full flex items-center justify-start gap-2 px-4 mt-4">
             <Image
               src="/logo.png"
               width={isExpanded ? 40 : 50}

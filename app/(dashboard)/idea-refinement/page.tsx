@@ -177,7 +177,7 @@ const Page: React.FC = () => {
       })
       .then((res) => {
         console.log(res);
-        toast.success("Chat Initialized");
+        toast.success("Chat Idea Initialized");
         setChatBtnLoader(false);
         router.push("/chat-assistant");
       })
@@ -201,7 +201,7 @@ const Page: React.FC = () => {
       })
       .then((res) => {
         console.log(res);
-        toast.error(res.data.error);
+        toast.success(res.data.message);
         
     setSaveBtnLoader(false);
       })
@@ -239,7 +239,7 @@ const Page: React.FC = () => {
           </div>
           <div className="w-full lg:w-1/2 flex flex-col items-end p-6">
           <div className="flex justify-end gap-4">
-            <Button  className={`h-14 text-white w-14 text-md hover:bg-blue-600 hover:text-white ${saveBtnLoader ? 'disabled' : ''}`} onClick={handleSaveIdea}><Bookmark size={94}/></Button>
+            <Button  className={`h-14 text-white w-14 text-md hover:bg-blue-600 hover:text-white ${saveBtnLoader ? 'animate-pulse' : ''}`} disabled={saveBtnLoader} onClick={handleSaveIdea}><Bookmark size={94}/></Button>
             <Button variant="outline" className="h-14">
               <span className="text-xl">
                 <Snowflake size={36} />

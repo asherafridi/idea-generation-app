@@ -22,6 +22,11 @@ interface JSXMessage {
   text: any;
   time: string;
 }
+interface UserDetail {
+  knowledgeBaseId: String;
+  apiKey: String;
+  userId: String;
+}
 
 const useFetchChatCredHook = () => {
   const [loader, setLoader] = useState(true);
@@ -39,7 +44,20 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
   const [shouldSend, setShouldSend] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const [username, setName] = useState("You");
+  const [userDetail, setUserDetail] = useState<UserDetail>(undefined);
   const router = useRouter();
+
+  useEffect(()=>{
+    const response = axios.get('/api/chat-assistant/cred').then(res=>{
+
+      const {knowledgeBaseId, apiKey, userId } = res.data.result;
+      setUserDetail({
+        knowledgeBaseId, apiKey, userId
+      });
+    }).catch(e=>{
+      console.log(e);
+    })
+  },[]);
 
   const names = ["Rosie", "Alexa", "Amanda", "Sara", "Maya"];
   const [assistantName, setAssistantName] = useState(""); // Initially empty
@@ -149,15 +167,15 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
       setIsLoading(true); // Set loading state to true before making the request
 
       const response = await axios.post(
-        "https://scrape.vetaai.com/api/chat/4ae09a2a-e830-4bae-9c5a-331d98f33724",
+        `https://scrape.vetaai.com/api/chat/${userDetail.knowledgeBaseId}`,
         {
           message: input,
-          user_id: "0dcf23a8-30be-416d-b53a-d1c25881e4ce",
+          user_id: userDetail.userId,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            "X-API-Key": "3f42cd74-7853-47b7-870c-e1b640ad5340",
+            "X-API-Key": `${userDetail.apiKey}`,
           },
         }
       );
@@ -260,7 +278,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
   };
 
   return (
-    <div className="row gpt font-body bg-background">
+    <div className="row gpt font-body ">
       <div className="w-full border-b px-32 py-6 flex items-center gap-6">
         <Button
           variant="outline"

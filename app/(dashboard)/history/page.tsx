@@ -65,6 +65,7 @@ const Page: React.FC = () => {
         </Button>
         <h1 className="font-heading text-4xl font-bold">Idea History</h1>
       </div>
+      <div></div>
     </div>
   );
 };
