@@ -15,17 +15,20 @@ export default function RootLayout({
   const session = useSession();
   const router = useRouter();
 
+  console.log(session.status);
+  useEffect(() => {
+    if (session.status === "unauthenticated") {
+      console.log(session.status);
+      router.push("/login");
+    }
+  }, []);
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", storedTheme);
     document.body.classList.add(storedTheme);
   }, []);
-  console.log(session.status);
-  useEffect(() => {
-    if (session.status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, []);
+  
 
   return (
     <SidebarProvider>
