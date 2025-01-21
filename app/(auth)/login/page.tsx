@@ -119,8 +119,7 @@ export default function Login() {
             >
               {isSubmitting && (
                 <CircleDashed className="w-[20px] animate-spin" />
-              )}
-              {!isSubmitting && "Login"}
+              )} Login
             </button>
           </form>
         </div>

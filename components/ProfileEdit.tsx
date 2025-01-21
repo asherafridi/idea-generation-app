@@ -10,6 +10,7 @@ import {
 } from "./ui/dialog";
 import { useSession } from "next-auth/react";
 import FormButton from "./FormButton";
+import toast from "react-hot-toast";
 
 
 interface FormData {
@@ -43,7 +44,7 @@ const ProfileEdit = () => {
       const imageData = new FormData();
       imageData.append("image", formData.image);
 
-      const uploadResponse = await fetch("https://your-php-api.com/upload", {
+      const uploadResponse = await fetch("https://idea-images.vetaai.com/", {
         method: "POST",
         body: imageData,
       });
@@ -62,8 +63,9 @@ const ProfileEdit = () => {
         imageUrl,
         companyName: formData.companyName,
       };
+      console.log(finalPayload)
 
-      const saveResponse = await fetch("https://your-second-api.com/save-profile", {
+      const saveResponse = await fetch("/api/profile/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,6 +79,7 @@ const ProfileEdit = () => {
 
       const saveResult = await saveResponse.json();
 
+      toast.success('Profile updated successfully');
       console.log("Profile updated successfully:", saveResult);
 
       // Optionally reset the form or notify the user

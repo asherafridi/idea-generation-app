@@ -38,7 +38,7 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
             <div className="flex w-full items-center flex-col">
               <div className="relative group">
                 <Avatar className="w-16 h-16 text-xl">
-                  <AvatarImage src="https://github.com/shadcn.pg" />
+                  <AvatarImage src={session.data?.user.image} />
                   <AvatarFallback>
                     {session.data?.user.name.substring(0, 2).toUpperCase()}
                   </AvatarFallback>

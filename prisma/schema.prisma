@@ -21,6 +21,7 @@ model User {
   status          Boolean       @default(false)
   apiKey          String?
   knowledgeBaseId String?
+  profileImg      String?
   userId          String?
   ideaHistories   IdeaHistory[] // Relation to IdeaHistory
 }
