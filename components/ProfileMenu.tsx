@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { Pencil, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import {
@@ -13,6 +13,7 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import ThemeToggle from "./ThemeToggle";
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import ProfileEdit from "./ProfileEdit";
 
 const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
   const session = useSession();
@@ -35,12 +36,16 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
           </DialogTitle>
           <DialogDescription>
             <div className="flex w-full items-center flex-col">
-              <Avatar className="w-16 h-16 text-xl">
-                <AvatarImage src="https://github.com/shadcn.pg" />
-                <AvatarFallback>
-                  {session.data?.user.name.substring(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+              <div className="relative group">
+                <Avatar className="w-16 h-16 text-xl">
+                  <AvatarImage src="https://github.com/shadcn.pg" />
+                  <AvatarFallback>
+                    {session.data?.user.name.substring(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                {/* Pencil Icon */}
+                <ProfileEdit />
+              </div>
               <h1 className="font-body text-xl font-medium mt-4 text-foreground">
                 {session.data?.user.name}
               </h1>
