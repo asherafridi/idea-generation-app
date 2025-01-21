@@ -16,12 +16,10 @@ export default function RootLayout({
   const router = useRouter();
 
   console.log(session.status);
-  useEffect(() => {
     if (session.status === "unauthenticated") {
       console.log(session.status);
       router.push("/login");
     }
-  }, []);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "light";
