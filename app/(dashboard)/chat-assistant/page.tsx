@@ -18,14 +18,14 @@ let SpeechRecognition: any;
 let recognition: any;
 
 interface JSXMessage {
-  sender: String;
+  sender: string;
   text: any;
-  time: String;
+  time: string;
 }
 interface UserDetail {
-  knowledgeBaseId: String;
-  apiKey: String;
-  userId: String;
+  knowledgeBaseId: string;
+  apiKey: string;
+  userId: string;
 }
 
 const useFetchChatCredHook = () => {
