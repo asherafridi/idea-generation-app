@@ -20,6 +20,7 @@ export default function RootLayout({
     document.documentElement.setAttribute("data-theme", storedTheme);
     document.body.classList.add(storedTheme);
   }, []);
+  console.log(session.status);
   useEffect(() => {
     if (session.status === "unauthenticated") {
       router.push("/login");

@@ -100,7 +100,6 @@ export const Sidebar: React.FC = () => {
 
   const logout = () => {
     signOut();
-    router.push('/login');
   };
 
   return (
