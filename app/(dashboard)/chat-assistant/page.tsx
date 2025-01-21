@@ -318,7 +318,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
               <div className="msg left-msg">
                 <div className="msg-bubble">
                   <img src="/chat.png" />
-                  <div className="msg-text typing">
+                  <div className="msg-text typing text-foreground">
                     <span className="dot">.</span>
                     <span className="dot">.</span>
                     <span className="dot">.</span>
