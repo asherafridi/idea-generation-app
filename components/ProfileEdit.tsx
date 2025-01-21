@@ -11,10 +11,15 @@ import {
 import { useSession } from "next-auth/react";
 import FormButton from "./FormButton";
 
+
+interface FormData {
+  image : any;
+  companyName : string;
+}
 const ProfileEdit = () => {
   const session = useSession();
   const [btnLoader, setBtnLoader] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     image: "",
     companyName: session.data?.user.name || "",
   });
