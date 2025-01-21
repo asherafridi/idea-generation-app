@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import FormButton from "./FormButton";
 import toast from "react-hot-toast";
 
@@ -80,6 +80,7 @@ const ProfileEdit = () => {
       const saveResult = await saveResponse.json();
 
       toast.success('Profile updated successfully');
+      
       console.log("Profile updated successfully:", saveResult);
 
       // Optionally reset the form or notify the user

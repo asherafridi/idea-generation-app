@@ -40,6 +40,9 @@ export async function POST(req: NextRequest) {
         },
       });
 
+      session.user.name = companyName;
+      session.user.image = imageUrl;
+
 
     return NextResponse.json(
       {
