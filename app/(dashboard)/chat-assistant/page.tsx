@@ -18,9 +18,9 @@ let SpeechRecognition: any;
 let recognition: any;
 
 interface JSXMessage {
-  sender: string;
+  sender: String;
   text: any;
-  time: string;
+  time: String;
 }
 interface UserDetail {
   knowledgeBaseId: String;

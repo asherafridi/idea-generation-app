@@ -99,9 +99,8 @@ export const Sidebar: React.FC = () => {
   ];
 
   const logout = () => {
-    
-    router.push("/login");
     signOut();
+    router.push('/login');
   };
 
   return (
