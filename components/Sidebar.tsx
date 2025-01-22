@@ -115,7 +115,7 @@ export const Sidebar: React.FC = () => {
           {/* Logo Section */}
           <div className="w-full flex items-center justify-start gap-2 px-6 mt-4">
             <Image
-              src={session.data?.user.image}
+              src={session.data?.user?.image}
               width={isExpanded ? 40 : 50}
               height={isExpanded ? 40 : 50}
               alt="Logo"

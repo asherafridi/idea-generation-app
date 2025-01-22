@@ -38,7 +38,7 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
             <div className="flex w-full items-center flex-col">
               <div className="relative group">
                 <Avatar className="w-16 h-16 text-xl">
-                  <AvatarImage src={session.data?.user.image} />
+                  <AvatarImage src={session.data?.user?.image} />
                   <AvatarFallback>
                     {session.data?.user.name.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
@@ -47,7 +47,7 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
                 <ProfileEdit />
               </div>
               <h1 className="font-body text-xl font-medium mt-4 text-foreground">
-                {session.data?.user.name}
+                {session.data?.user?.name}
               </h1>
             </div>
 

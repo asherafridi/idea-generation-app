@@ -19,8 +19,7 @@ interface FormData {
   companyName : string;
 }
 const ProfileEdit = () => {
-  const {update} = useSession();
-  const {data:session} = useSession();
+  const {data:session,update} = useSession();
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -39,6 +38,18 @@ const ProfileEdit = () => {
   };
 
  
+  
+  const updateSession = async (name,image)=>{
+    await update({
+       ...session,
+       user : {
+           ...session.user,
+
+       name : name,
+       image : image
+       }
+   });
+}
 
  
 const handleSubmit = async (e) => {
@@ -81,9 +92,10 @@ const handleSubmit = async (e) => {
       throw new Error("Failed to save profile.");
     }
 
-    await update({name : finalPayload.companyName,image : imageUrl});
+    
 
 
+    updateSession(finalPayload.companyName,finalPayload.imageUrl);
     console.log("Updated session:", session);
     
     toast.success('Profile updated successfully');
