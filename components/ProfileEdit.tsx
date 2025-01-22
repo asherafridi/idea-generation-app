@@ -8,9 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 import FormButton from "./FormButton";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 
 interface FormData {
@@ -18,11 +19,13 @@ interface FormData {
   companyName : string;
 }
 const ProfileEdit = () => {
-  const session = useSession();
+  const {update} = useSession();
+  const {data:session} = useSession();
+
   const [btnLoader, setBtnLoader] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     image: "",
-    companyName: session.data?.user.name || "",
+    companyName: session?.user.name || "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,61 +38,67 @@ const ProfileEdit = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setBtnLoader(true);
+ 
 
-    try {
-      // 1. Upload the image to PHP API
-      const imageData = new FormData();
-      imageData.append("image", formData.image);
+ 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setBtnLoader(true);
 
-      const uploadResponse = await fetch("https://idea-images.vetaai.com/", {
-        method: "POST",
-        body: imageData,
-      });
+  try {
+    // 1. Upload the image to PHP API
+    const imageData = new FormData();
+    imageData.append("image", formData.image);
 
-      if (!uploadResponse.ok) {
-        throw new Error("Failed to upload image.");
-      }
+    const uploadResponse = await axios.post("https://idea-images.vetaai.com/", imageData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-      const uploadResult = await uploadResponse.json();
-
-      // Extract the image URL from the PHP API response
-      const imageUrl = uploadResult.url;
-
-      // 2. Send image URL and company name to another API
-      const finalPayload = {
-        imageUrl,
-        companyName: formData.companyName,
-      };
-      console.log(finalPayload)
-
-      const saveResponse = await fetch("/api/profile/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(finalPayload),
-      });
-
-      if (!saveResponse.ok) {
-        throw new Error("Failed to save profile.");
-      }
-
-      const saveResult = await saveResponse.json();
-
-      toast.success('Profile updated successfully');
-      
-      console.log("Profile updated successfully:", saveResult);
-
-      // Optionally reset the form or notify the user
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setBtnLoader(false);
+    if (uploadResponse.status !== 200) {
+      throw new Error("Failed to upload image.");
     }
-  };
+
+    // Extract the image URL from the PHP API response
+    const imageUrl = uploadResponse.data.url;
+
+    // 2. Send image URL and company name to another API
+    const finalPayload = {
+      imageUrl,
+      companyName: formData.companyName,
+    };
+
+    console.log(finalPayload);
+
+    const saveResponse = await axios.post("/api/profile/update", finalPayload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (saveResponse.status !== 200) {
+      throw new Error("Failed to save profile.");
+    }
+
+    await update({name : finalPayload.companyName,image : imageUrl});
+
+
+    console.log("Updated session:", session);
+    
+    toast.success('Profile updated successfully');
+
+    
+    
+    console.log("Profile updated successfully:", saveResponse.data);
+
+    // Optionally reset the form or notify the user
+  } catch (error) {
+    console.error("Error:", error);
+  } finally {
+    setBtnLoader(false);
+  }
+};
 
   return (
     <Dialog>

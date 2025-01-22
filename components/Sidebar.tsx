@@ -11,7 +11,7 @@ import {
   Twitter,
   User,
 } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -85,6 +85,7 @@ interface SidebarItemProps {
 export const Sidebar: React.FC = () => {
   const { isExpanded, toggleExpanded } = useSidebar();
   const router = useRouter();
+  const session = useSession();
 
   const items: SidebarItemProps[] = [
     { href: "/dashboard?tab=social", Icon: <Twitter fill="#000" />, label: "Social Media" },
@@ -114,12 +115,13 @@ export const Sidebar: React.FC = () => {
           {/* Logo Section */}
           <div className="w-full flex items-center justify-start gap-2 px-6 mt-4">
             <Image
-              src="/logo.png"
+              src={session.data?.user.image}
               width={isExpanded ? 40 : 50}
               height={isExpanded ? 40 : 50}
               alt="Logo"
               className="mt-2"
             />
+            
             {isExpanded && (
               <span className="font-heading font-bold text-lg text-sidebar-foreground">
                 Logo Name

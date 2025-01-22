@@ -56,7 +56,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
       className="absolute right-4 -bottom-4 p-2 bg-blue-700 rounded-full border border-blue-400 text-white shadow hover:bg-blue-200"
       aria-label="Copy content"
       onClick={() => {
-        navigator.clipboard.writeText(card.idea);
+        navigator.clipboard.writeText(`Title: ${card.title} Idea: ${card.idea}`);
         toast.success("Idea Copied!");
       }}
     >
