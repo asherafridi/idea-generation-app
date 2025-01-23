@@ -37,7 +37,7 @@ export default function RootLayout({
         <Sidebar />
         <div className="w-full lg:pl-24">
           <div className="block md:hidden w-full px-4 py-2 h-16 border-0 border-b border-blue-400 shadow-md flex items-center"> 
-            <SidebarTrigger /> <span className="font-body font-medium">{session.data.user.name}</span>
+            <SidebarTrigger /> <span className="font-body font-medium">{session?.data?.user?.name}</span>
           </div>
           <IdeaProvider>{children}</IdeaProvider>
 
