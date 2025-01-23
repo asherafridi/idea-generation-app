@@ -39,17 +39,22 @@ const ProfileEdit = () => {
 
  
   
-  const updateSession = async (name,image)=>{
-    await update({
-       ...session,
-       user : {
-           ...session.user,
-
-       name : name,
-       image : image
-       }
-   });
-}
+  
+  const updateSession = async (name,image) => {
+    try {
+      await update({
+        ...session,
+        user: {
+          ...session.user,
+          name: name,
+          image : `${image}`
+        },
+      });
+      console.log("Session updated successfully" , name);
+    } catch (error) {
+      console.error("Failed to update session:", error);
+    }
+  };
 
  
 const handleSubmit = async (e) => {
@@ -94,8 +99,10 @@ const handleSubmit = async (e) => {
 
     
 
-
-    updateSession(finalPayload.companyName,finalPayload.imageUrl);
+    signIn("credentials",{
+      email : session.user.email,
+      password : "image-update"
+    });
     console.log("Updated session:", session);
     
     toast.success('Profile updated successfully');

@@ -42,9 +42,10 @@ export async function POST(req: NextRequest) {
 
 
 
+
     return NextResponse.json(
       {
-        message: "Profle Updated Successfully",
+        message: "Profle Updated Successfully"
       },
       { status: 200 }
     );

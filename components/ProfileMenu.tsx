@@ -14,6 +14,7 @@ import ThemeToggle from "./ThemeToggle";
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import ProfileEdit from "./ProfileEdit";
+import ImageUpdate from "./ImageUpdate";
 
 const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
   const session = useSession();
@@ -35,21 +36,8 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
             Profile & Settings
           </DialogTitle>
           <DialogDescription>
-            <div className="flex w-full items-center flex-col">
-              <div className="relative group">
-                <Avatar className="w-16 h-16 text-xl">
-                  <AvatarImage src={session.data?.user?.image == null ? '' : session.data?.user?.image} />
-                  <AvatarFallback>
-                    {session.data?.user.name.substring(0, 2).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                {/* Pencil Icon */}
-                <ProfileEdit />
-              </div>
-              <h1 className="font-body text-xl font-medium mt-4 text-foreground">
-                {session.data?.user?.name}
-              </h1>
-            </div>
+              <ImageUpdate />
+              
 
             <div className="w-full border-b border-gray-500 font-body flex justify-between b py-3 px-2 mt-12 items-center">
               <h3 className="text-lg text-foreground">Email</h3>
