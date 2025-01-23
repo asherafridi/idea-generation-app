@@ -46,11 +46,11 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full  min-h-screen">
       <IdeaBar menu="list" />
 
       <div className="w-full mt-4">
-        <div className="w-full flex justify-between px-6 gap-[480px]">
+        <div className="w-full flex justify-between px-6">
           <Button
             variant={"outline"}
             className="font-body py-6 flex gap-4 bg-background text-xl"
@@ -96,8 +96,8 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => {
   return (
     <div
       onClick={() => onSelect(card.idea_id)}
-      className={`relative max-w-sm p-6 bg-background border rounded-2xl shadow-lg cursor-pointer ${
-        isSelected ? "border-blue-600 ring-2 ring-blue-400" : "border-blue-400"
+      className={`relative max-w-sm p-6 bg-background border rounded-2xl  cursor-pointer ${
+        isSelected ? "border-blue-600 ring-2 ring-blue-400 shadow-card" : "border-blue-400"
       }`}
     >
       {/* Title */}

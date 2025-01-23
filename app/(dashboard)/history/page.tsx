@@ -54,7 +54,7 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="w-full pb-16">
+    <div className="w-full pb-16  min-h-screen">
       <div className="w-full border-b px-32 py-6 flex items-center gap-6">
         <Button
           variant="outline"

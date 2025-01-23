@@ -54,7 +54,7 @@ const Page: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full pb-16">
+    <div className="w-full pb-16  min-h-screen">
       <IdeaBar menu="prototype" />
       <div className="w-full mt-4">
         <div className="w-full flex px-6 gap-[480px]">

@@ -125,7 +125,7 @@ export default function Login() {
         </div>
         <div className="flex w-full justify-center pb-8">
           <p className="font-body text-sm text-gray-600 font-semibold">
-            Copyright &copy; 2025
+          &copy; 2025 Launchidea. All rights reserved. Version 1.0
           </p>
         </div>
       </div>

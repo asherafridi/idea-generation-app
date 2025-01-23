@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     if (existingIdea) {
       return NextResponse.json(
-        { error: "An idea with this name and title already exists." },
+        { error: "This idea is already exists." },
         { status: 400 }
       );
     }

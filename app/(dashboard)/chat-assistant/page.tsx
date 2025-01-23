@@ -278,8 +278,8 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
   };
 
   return (
-    <div className="row gpt font-body ">
-      <div className="w-full border-b px-32 py-6 flex items-center gap-6">
+    <div className="row gpt font-body  min-h-screen">
+      <div className="w-full border-b px-2 lg:px-32 py-6 flex items-center gap-6">
         <Button
           variant="outline"
           className="font-body py-6 flex gap-4 bg-background text-xl"
@@ -287,11 +287,11 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
         >
           <ArrowLeft /> Back
         </Button>
-        <h1 className="font-heading text-4xl font-bold">Idea Assistant</h1>
+        <h1 className="font-heading text-2xl  lg:text-4xl font-bold">Idea Assistant</h1>
       </div>
       <div className="w-full font-body min-h-full">
         <section className="msger">
-          <main className="msger-chat px-32" ref={chatRef}>
+          <main className="msger-chat px-2 lg:px-32" ref={chatRef}>
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -327,7 +327,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
               </div>
             )}
           </main>
-          <div className="px-12 ">
+          <div className="px-2 lg:px-12 ">
             <form
               className="msger-inputarea relative dark:border dark:border-blue-800 "
               onSubmit={handleSendMessage}

@@ -38,7 +38,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ card, isSelected, onSelect }) => (
   <div
     onClick={() => onSelect(card)}
     className={`relative w-full lg:max-w-sm p-6 bg-background border rounded-2xl shadow-lg cursor-pointer ${
-      isSelected ? "border-blue-600 ring-2 ring-blue-400" : "border-blue-400"
+      isSelected ? "border-blue-600 ring-2 ring-blue-400  shadow-card" : "border-blue-400"
     }`}
   >
     <div className="flex justify-between items-start">
@@ -214,7 +214,7 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-screen pb-16">
       <IdeaBar menu="refinement" />
       <div className="w-full mt-4">
         <div className="w-full flex px-6 gap-[480px]">
@@ -271,7 +271,7 @@ const Page: React.FC = () => {
                 className="w-full md:w-2/5 h-16 hover:bg-blue-600 hover:text-white"
               />
               <Button
-                className={`bg-primary font-body text-primary border-primary border h-16 w-1/5 text-xl rounded-xl  ${chatBtnLoader && 'animate-pulse'}`}
+                className={`w-full bg-primary font-body text-primary border-primary border h-16 lg:w-1/5 text-xl rounded-xl  ${chatBtnLoader && 'animate-pulse'}`}
                 disabled={chatBtnLoader} // Disable the button when `state` is true
                 onClick={handleChat} // Attach the onClick handler
               >

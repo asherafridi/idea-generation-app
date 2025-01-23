@@ -5,6 +5,7 @@ import {
   Globe,
   History,
   LogOut,
+  Menu,
   PanelLeft,
   Settings,
   Twitch,
@@ -69,7 +70,7 @@ export const SidebarTrigger: React.FC = () => {
       className="mr-2"
       aria-label="Toggle Sidebar"
     >
-      <PanelLeft />
+      <Menu />
     </button>
   );
 };
@@ -124,7 +125,7 @@ export const Sidebar: React.FC = () => {
             
             {isExpanded && (
               <span className="font-heading font-bold text-lg text-sidebar-foreground">
-                Logo Name
+                {session.data?.user?.name}
               </span>
             )}
           </div>
@@ -162,7 +163,7 @@ export const Sidebar: React.FC = () => {
               alt="Chat"
             />
             {isExpanded && (
-              <span className="font-heading font-medium text-sidebar-foreground">
+              <span className=" text-sidebar-foreground font-body font-medium">
                 Chat
               </span>
             )}

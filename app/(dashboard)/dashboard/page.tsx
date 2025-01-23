@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import DocumentUploader from "./Document";
 import WebsiteLinks from "./WebsiteLinks";
+import DataConnect from "./DataConnect";
 
 export default function Home() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="px-2 lg:px-8 pb-8">
+    <div className="px-2 lg:px-8 pb-8  min-h-screen">
       <h1 className="text-center font-heading text-5xl font-medium mb-6 text-[#368DFF] mt-4">
         Ideation Studio
       </h1>
@@ -53,7 +54,7 @@ export default function Home() {
         ))}
       </div>
       {tab === "social" && <SocialMedia />}
-      {tab === "data" && <div>Data Connect Content</div>}
+      {tab === "data" && <DataConnect />}
       {tab === "document" && <DocumentUploader />}
       {tab === "website" && <WebsiteLinks />}
     </div>

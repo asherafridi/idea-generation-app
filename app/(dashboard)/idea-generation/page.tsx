@@ -137,10 +137,10 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="w-full pb-16">
+    <div className="w-full pb-16  min-h-screen">
       <IdeaBar menu="generation" />
-      <div className="flex items-center justify-center px-16 gap-48 pt-16 md:pt-32">
-        <div className="max-w-5xl    flex flex-col items-center">
+      <div className="flex flex-col lg:flex-row items-center justify-center px-4 gap-48 pt-16 md:pt-32">
+        <div className="w-full lg:max-w-5xl    flex flex-col items-center">
           <h1 className="font-heading text-5xl font-semibold">
             Generate Ideas
           </h1>
@@ -200,7 +200,7 @@ const Page: React.FC = () => {
             </div>
           </form>
         </div>
-        <div className="generation-image w-[500px] h-[400px] bg-transparent"></div>
+        <div className="hidden md:block generation-image w-[500px] h-[400px] bg-transparent"></div>
       </div>
     </div>
   );
