@@ -107,7 +107,7 @@ const AddNewDB: React.FC = () => {
             Connect Database
           </h1>
           <p className="px-4 text-center mt-4 font-body text-foreground">
-            Configure your database connection here. Click save when you're done.
+            Configure your database connection here. Click save when you`re done.
           </p>
           <form
             className="w-full px-4 md:w-[600px] mt-4"
