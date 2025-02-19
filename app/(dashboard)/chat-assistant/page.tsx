@@ -65,7 +65,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
   const [messages, setMessages] = useState<JSXMessage[]>([
     {
       sender: assistantName || "Assistant",
-      text: "Hi, welcome to ChatiDea! Go ahead and send me a message. 😄",
+      text: "Hi, I am here to assist further with the idea you generated to bring more clarity. Please share your thoughts!",
       time: getTime24HourFormat(),
     },
   ]);

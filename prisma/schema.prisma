@@ -22,8 +22,10 @@ model User {
   apiKey          String?
   knowledgeBaseId String?
   profileImg      String?
-  userId          String?
+  role            String        @default("admin")
+  referrer_id     Int?
   ideaHistories   IdeaHistory[] // Relation to IdeaHistory
+  databases       Database[] // Relation to IdeaHistory
 }
 
 model IdeaHistory {
@@ -34,6 +36,17 @@ model IdeaHistory {
   created_at  DateTime @default(now())
   user_id     Int
   user        User     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+}
+
+model Database {
+  id               Int     @id @default(autoincrement())
+  type             String?
+  connectionString String?
+  description      String?
+  user_id          Int
+  user             User    @relation(fields: [user_id], references: [id])
 
   @@index([user_id])
 }

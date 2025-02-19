@@ -48,7 +48,6 @@ export default function RootLayout({
           </div>
         </div>
         
-        <Toaster position="top-right" />
         
       </main>
     </SidebarProvider>

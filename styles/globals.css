@@ -116,7 +116,12 @@ body.dark {
 }
 
 
-
+.database-image{
+  background: url('/database-image.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 body.light .generation-image {
   background: url('/light_bulb.png');
