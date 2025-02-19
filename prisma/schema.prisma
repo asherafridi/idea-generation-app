@@ -21,6 +21,7 @@ model User {
   status          Boolean       @default(false)
   apiKey          String?
   knowledgeBaseId String?
+  userId          String?
   profileImg      String?
   role            String        @default("admin")
   referrer_id     Int?
