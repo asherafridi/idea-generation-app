@@ -27,20 +27,6 @@ export async function POST(req: NextRequest) {
         }
 
         
-        const options = {
-            method: 'POST',
-            headers: {
-                authorization: process.env.BLAND_KEY,
-                'Content-Type': 'application/json'
-            },
-            data: {}
-        };
-
-        if(user.subaccount_id){
-
-            const request = await axios.post(`https://api.bland.ai/v1/subaccounts/${user.subaccount_id}/disable`, options.data, { headers: options.headers });
-        }
-
 
         const contact = await prisma.user.delete({
             where:{
