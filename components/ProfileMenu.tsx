@@ -18,6 +18,7 @@ import ImageUpdate from "./ImageUpdate";
 
 const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
   const session = useSession();
+  console.log(session);
   return (
     <Dialog>
       <DialogTrigger>
@@ -54,6 +55,19 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
                 <ThemeToggle />
               </div>
             </div>
+
+
+            {session?.data?.user?.role == "admin" && (
+              <div className="w-full border-b border-gray-500 font-body flex justify-between b py-3 px-2 mt-4 items-center">
+              <h3 className="text-lg text-foreground">Users</h3>
+              <div className="flex items-center gap-2">
+              <Link href={"/users"} className="text-blue-400 text-md">
+                  Subaccounts
+                </Link>{" "}
+              </div>
+            </div>
+            )}
+            
 
             <div className="w-full  font-body  b py-3 px-2 mt-4 ">
               <div className="flex justify-between items-center">

@@ -4,7 +4,6 @@ import { isSamePass } from "./hash";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
@@ -12,11 +11,13 @@ declare module "next-auth" {
     id: string;
     name: string | null;
     email: string | null;
+    role: string;
   }
 
   interface Session {
     user: {
       id: string;
+      role: string; // Add role to the session
     } & DefaultSession["user"];
   }
 }
@@ -57,6 +58,7 @@ export const authOption: AuthOptions = {
             name: existingUser.name,
             email: existingUser.email,
             image: existingUser.profileImg,
+            role: existingUser.role,
           };
         }
 
@@ -74,6 +76,7 @@ export const authOption: AuthOptions = {
           name: existingUser.name,
           email: existingUser.email,
           image: existingUser.profileImg,
+          role: existingUser.role,
         };
       },
     }),
@@ -82,14 +85,16 @@ export const authOption: AuthOptions = {
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
+        token.role = user.role; // Add role to the token
       }
       if (trigger === "update") {
         return { ...token, ...session.user };
       }
-      return { ...token, ...user };
+      return token;
     },
     async session({ session, token }) {
       session.user.id = `${token.id}`;
+      session.user.role = `${token.role}`; // Add role to the session
       return session;
     },
   },

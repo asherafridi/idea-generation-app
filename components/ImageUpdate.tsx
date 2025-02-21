@@ -108,7 +108,7 @@ const ImageUpdate = () => {
         </Avatar>
 
         {/* Camera Icon (show on hover) */}
-        {isHoveringImage && (
+        {session.user.role == "admin" && (isHoveringImage && (
           <div className="w-full h-full absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 rounded-full cursor-pointer">
             <label className="flex items-center gap-2 text-white w-full h-full cursor-pointer">
               <Camera className="w-6 h-6 mx-auto" />
@@ -120,7 +120,8 @@ const ImageUpdate = () => {
               />
             </label>
           </div>
-        )}
+        ))}
+        
       </div>
 
       {/* Name Input Section */}
@@ -139,14 +140,16 @@ const ImageUpdate = () => {
         />
 
         {/* Pencil Icon (show on hover) */}
-        {isHoveringInput && !isEditing && (
+        
+        {session.user.role == "admin" && (isHoveringInput && !isEditing && (
           <button
             className="absolute  top-1/2 transform -translate-y-1/2 text-blue-500"
             onClick={() => setIsEditing(true)}
           >
             <Edit2 className="w-5 h-5" />
           </button>
-        )}
+        ))}
+        
       </div>
 
       {/* Update Button */}
