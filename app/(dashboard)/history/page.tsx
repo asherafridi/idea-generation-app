@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import IdeaBar from "@/components/IdeaBar";
@@ -25,6 +25,7 @@ interface InfoCardProps {
 // Page Component
 const Page: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
+  const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -36,7 +37,9 @@ const Page: React.FC = () => {
     const fetchCards = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/idea?page=${currentPage}&limit=${limit}`);
+        const response = await axios.get(
+          `/api/idea?page=${currentPage}&limit=${limit}&search=${search}`
+        );
         setCards(response.data.result || []);
         setTotalPages(response.data.pagination.totalPages || 1);
         setLoading(false);
@@ -47,28 +50,56 @@ const Page: React.FC = () => {
     };
 
     fetchCards();
-  }, [currentPage]);
+  }, [currentPage, search]);
+
+  // Debounce search input
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      setCurrentPage(1); // Reset to the first page when searching
+    }, 1000);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [search]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setCurrentPage(1); // Reset to the first page when searching
+    }
+  };
+
   return (
     <div className="w-full pb-16  min-h-screen">
-      <div className="w-full border-b px-32 py-6 flex items-center gap-6">
-        <Button
-          variant="outline"
-          className="font-body py-6 flex gap-4 bg-background text-xl"
-          onClick={() => router.back()}
-        >
-          <ArrowLeft /> Back
-        </Button>
-        <h1 className="font-heading text-4xl font-bold">Idea History</h1>
+      <div className="w-full border-b px-32 py-6 flex justify-between gap-6">
+        <div className="flex items-center gap-6">
+          <Button
+            variant="outline"
+            className="font-body py-6 flex gap-4 bg-background text-xl"
+            onClick={() => router.back()}
+          >
+            <ArrowLeft /> Back
+          </Button>
+          <h1 className="font-heading text-4xl font-bold">Idea History</h1>
+        </div>
+        <div className="w-[400px] h-40px border border-blue-600 rounded-lg flex items-center bg-background p-2 pr-4">
+          <input
+            className="w-full h-full bg-transparent outline-none font-body"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
+            type="text"
+            placeholder="Search..."
+          />
+          <Search />
+        </div>
       </div>
 
       <div className="px-32 py-6">
         {loading ? (
-          <Skeleton className="w-full h-32 mb-4"  />
+          <Skeleton className="w-full h-32 mb-4" />
         ) : (
           cards.map((card, index) => <HistoryCard key={index} card={card} />)
         )}
@@ -100,7 +131,6 @@ const Page: React.FC = () => {
 
 // InfoCard Component
 const HistoryCard: React.FC<InfoCardProps> = ({ card }) => {
-  
   const formatResponse = (response: string) => {
     return response.split("\n").map((line, index) => (
       <span key={index}>
@@ -137,9 +167,8 @@ const HistoryCard: React.FC<InfoCardProps> = ({ card }) => {
         </h3>
       </div>
       <div className=" max-h-[400px] overflow-y-auto my-4">
-      {formatResponse(card.description)}
+        {formatResponse(card.description)}
       </div>
-      
     </div>
   );
 };
