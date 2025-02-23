@@ -6,6 +6,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import DocumentUploader from "./Document";
 import WebsiteLinks from "./WebsiteLinks";
 import DataConnect from "./DataConnect";
+import Tour from "@/components/Tours";
+import { dashboardPageSteps } from "@/components/tour";
 
 export default function Home() {
   const router = useRouter();
@@ -43,7 +45,7 @@ export default function Home() {
           <button
             key={item.id}
             onClick={() => setTab(item.id)}
-            className={`w-1/4 transition-all flex flex-col lg:flex-row items-center px-4 lg:px-12 lg:gap-8 gap-2 py-4 duration-300 text-md lg:text-lg ${
+            className={`w-1/4 transition-all flex flex-col lg:flex-row items-center px-4 ${item.id} lg:px-12 lg:gap-8 gap-2 py-4 duration-300 text-md lg:text-lg ${
               tab === item.id
                 ? "bg-blue-500 text-white z-10 rounded-xl"
                 : "bg-background text-foreground text-black"
@@ -57,6 +59,8 @@ export default function Home() {
       {tab === "data" && <DataConnect />}
       {tab === "document" && <DocumentUploader />}
       {tab === "website" && <WebsiteLinks />}
+      
+      <Tour pageSteps={dashboardPageSteps} />
     </div>
   );
 }

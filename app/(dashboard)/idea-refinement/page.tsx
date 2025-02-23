@@ -13,6 +13,8 @@ import { useIdea } from "@/components/IdeaProvider";
 import Markdown from "react-markdown";
 import toast from "react-hot-toast";
 import { Description } from "@radix-ui/react-dialog";
+import Tour from "@/components/Tours";
+import { ideaRefinementPageSteps } from "@/components/tour";
 
 // Interface for card data
 interface Card {
@@ -281,6 +283,8 @@ const Page: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      <Tour pageSteps={ideaRefinementPageSteps} />
     </div>
   );
 };

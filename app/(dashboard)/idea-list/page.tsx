@@ -1,6 +1,8 @@
 "use client";
 import IdeaBar from "@/components/IdeaBar";
 import { useIdea } from "@/components/IdeaProvider";
+import { ideaListPageSteps } from "@/components/tour";
+import Tour from "@/components/Tours";
 import { Button } from "@/components/ui/button";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -86,6 +88,8 @@ const Page: React.FC = () => {
       <div className="px-8 flex justify-end">
         
       </div>
+      
+      <Tour pageSteps={ideaListPageSteps} />
     </div>
   );
 };

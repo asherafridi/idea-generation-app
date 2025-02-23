@@ -11,6 +11,8 @@ import { QuestionMarkIcon } from "@radix-ui/react-icons";
 import FormButton from "@/components/FormButton";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import Tour from "@/components/Tours";
+import { ideaGenerationPageSteps } from "@/components/tour";
 
 interface FormData {
   ideaName: string;
@@ -202,6 +204,7 @@ const Page: React.FC = () => {
         </div>
         <div className="hidden md:block generation-image w-[500px] h-[400px] bg-transparent"></div>
       </div>
+      <Tour pageSteps={ideaGenerationPageSteps} />
     </div>
   );
 };

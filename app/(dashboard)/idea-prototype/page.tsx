@@ -11,6 +11,8 @@ import Link from "next/link";
 import axios from "axios";
 import { useIdea } from "@/components/IdeaProvider";
 import { Skeleton } from "@/components/ui/skeleton";
+import Tour from "@/components/Tours";
+import { ideaPrototypePageSteps } from "@/components/tour";
 
 // Interface for card data
 interface Card {
@@ -95,6 +97,8 @@ const Page: React.FC = () => {
           <p className="text-center text-lg">No results found.</p>
         )}
       </div>
+      
+      <Tour pageSteps={ideaPrototypePageSteps} />
     </div>
   );
 };

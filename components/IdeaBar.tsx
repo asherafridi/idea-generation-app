@@ -17,7 +17,7 @@ export default function IdeaBar({menu} : {menu:string}) {
     {tabs.map((item, index) => (
       <button
         key={item.id}
-        className={`w-1/4 transition-all flex flex-col lg:flex-row items-center px-12 justify-between py-4 duration-300 text-md lg:text-lg ${
+        className={`w-1/4 transition-all ${item.id} flex flex-col lg:flex-row items-center px-12 justify-between py-4 duration-300 text-md lg:text-lg ${
           tab === item.id
             ? "bg-blue-500 text-white z-10 "
             : "bg-background text-foreground text-black"
