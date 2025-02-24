@@ -20,7 +20,7 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
   const session = useSession();
   console.log(session);
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger>
         <button
           className={`w-full py-2 rounded flex items-center  font-body font-medium  hover:bg-gray-200 dark:hover:bg-gray-800 ${
@@ -61,9 +61,9 @@ const ProfileMenu = ({ isExpanded }: { isExpanded: boolean }) => {
               <div className="w-full border-b border-gray-500 font-body flex justify-between b py-3 px-2 mt-4 items-center">
               <h3 className="text-lg text-foreground">Users</h3>
               <div className="flex items-center gap-2">
-              <Link href={"/users"} className="text-blue-400 text-md">
+              <a href={"/users"} className="text-blue-400 text-md">
                   Subaccounts
-                </Link>{" "}
+                </a>{" "}
               </div>
             </div>
             )}

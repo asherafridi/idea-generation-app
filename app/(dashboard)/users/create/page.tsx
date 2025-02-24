@@ -17,10 +17,12 @@ import {
 } from "@/components/ui/form";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const form = useForm();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const submit = (values: any) => {
     setLoading(true);
@@ -32,6 +34,7 @@ const Page = () => {
         setTimeout(() => {
           setLoading(false);
           form.reset();
+          router.push('/users');
         });
       })
       .catch((e) => {
@@ -45,18 +48,31 @@ const Page = () => {
     <div className="p-4 min-h-screen pt-12">
       <Breadcrumb text="Add New User" />
       <p className="mb-10"></p>
-      <Card className=" rounded p-4 font-body">
+      <Card className=" rounded p-4 font-body max-w-3xl m-auto">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(submit)}
             className="mt-4 flex w-full  flex-wrap "
           >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="w-full  p-2">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="w-full md:w-1/2 lg:w-1/2 p-2">
+                <FormItem className="w-full p-2">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Email" {...field} />
@@ -70,7 +86,7 @@ const Page = () => {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem className="w-full md:w-1/2 lg:w-1/2 p-2">
+                <FormItem className="w-full  p-2">
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input placeholder="Password" {...field} />

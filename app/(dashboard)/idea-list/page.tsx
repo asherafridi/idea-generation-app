@@ -55,7 +55,7 @@ const Page: React.FC = () => {
         <div className="w-full flex justify-between px-6">
           <Button
             variant={"outline"}
-            className="font-body py-6 flex gap-4 bg-background text-xl"
+            className="font-body py-6 flex gap-4 bg-background text-xl hover:bg-blue-400"
             onClick={()=>{
               router.back();
             }}
@@ -65,7 +65,7 @@ const Page: React.FC = () => {
 
           <Button
           variant={"default"}
-          className="font-body py-6 flex gap-4 bg-blue-600 text-xl text-white"
+          className="font-body py-6 flex gap-4 bg-blue-600 text-xl text-white hover:bg-blue-400"
           onClick={handleNext}
         >
            Next <ArrowRight />

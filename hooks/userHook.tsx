@@ -75,6 +75,9 @@ const useUserDelete = async (id: string): Promise<void> => {
     try {
       const response = await axios.post(`/api/users/remove`, { id });
       toast.success(response?.data?.msg);
+      setTimeout(()=>{
+        window.location.reload();
+      },500)
     } catch (error:any) {
       toast.error(error?.data?.error || 'An error occurred while deleting the user.');
     }

@@ -273,7 +273,7 @@ const Page: React.FC = () => {
                 className="w-full md:w-2/5 h-16 hover:bg-blue-600 hover:text-white"
               />
               <Button
-                className={`w-full bg-primary font-body text-primary border-primary border h-16 lg:w-1/5 text-xl rounded-xl  ${chatBtnLoader && 'animate-pulse'}`}
+                className={`w-full bg-primary font-body hover:bg-blue-500 text-primary border-primary border h-16 lg:w-1/5 text-xl rounded-xl  ${chatBtnLoader && 'animate-pulse'}`}
                 disabled={chatBtnLoader} // Disable the button when `state` is true
                 onClick={handleChat} // Attach the onClick handler
               >

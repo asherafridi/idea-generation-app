@@ -4,7 +4,7 @@ export const dashboardPageSteps: Step[] = [
   {
     target: ".social",
     title: "Social Media", 
-    content: "Please pick a social media channel of your choice to collect customer review data for idea generation",
+    content: "Please pick a social media channel of your choice to collect the key points on it for idea generation",
     disableBeacon: true, 
   },
   {

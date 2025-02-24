@@ -44,7 +44,7 @@ export const columns: ColumnDef<Contact>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {/* <DropdownMenuItem><Link href={`/users/edit/${payment.id}`}>Edit User</Link></DropdownMenuItem> */}
+              <DropdownMenuItem><Link href={`/users/edit/${payment.id}`}>Edit User</Link></DropdownMenuItem>
               <DropdownMenuItem onClick={()=>{
                 if(confirm('Are you sure?')){
                     useUserDelete(payment.id);

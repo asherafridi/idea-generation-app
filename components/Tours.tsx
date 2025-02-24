@@ -64,6 +64,9 @@ const Tour: React.FC<TourProps> = ({ pageSteps }) => {
       continuous={true}
       showProgress={true}
       showSkipButton={false}
+      locale={{
+        last : "Got It"
+      }}
       styles={{
         options: {
           primaryColor: "#4f46e5",

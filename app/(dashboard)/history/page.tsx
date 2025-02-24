@@ -113,7 +113,7 @@ const Page: React.FC = () => {
           >
             Previous
           </Button>
-          <span className="text-lg">
+          <span className="text-lg font-body">
             Page {currentPage} of {totalPages}
           </span>
           <Button

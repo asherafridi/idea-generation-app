@@ -6,7 +6,7 @@ import axios from 'axios';
 import { hashPass } from '@/lib/hash';
 
 export async function POST(req: NextRequest) {
-    const {  email,password} = await req.json(); // Parse the JSON string back into an object
+    const {  name,email,password} = await req.json(); // Parse the JSON string back into an object
     const session = await getServerSession(authOption);
 
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
             const newUser = await prisma.user.create({
                 data: {
-                    name: session.user.name,
+                    name: name,
                     email: email,
                     status : true,
                     password : hashPassword,

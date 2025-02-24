@@ -6,6 +6,8 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Mic, Pause, SendHorizontal } from "lucide-react";
+import PageLoader from "next/dist/client/page-loader";
+import Loading from "@/app/loading";
 
 declare global {
   interface Window {
@@ -46,6 +48,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
   const [username, setName] = useState("You");
   const [userDetail, setUserDetail] = useState<UserDetail>(undefined);
   const router = useRouter();
+  const [apiLoader,setApiLoader] = useState(true);
 
   useEffect(()=>{
     const response = axios.get('/api/chat-assistant/cred').then(res=>{
@@ -54,6 +57,7 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
       setUserDetail({
         knowledgeBaseId, apiKey, userId
       });
+      setApiLoader(false);
     }).catch(e=>{
       console.log(e);
     })
@@ -276,6 +280,10 @@ const ChatComponent = ({ isUsername }: { isUsername: any }) => {
       }
     }
   };
+
+  if(apiLoader){
+    return <Loading />;
+  }
 
   return (
     <div className="row gpt font-body  min-h-screen">

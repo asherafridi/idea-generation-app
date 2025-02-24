@@ -40,7 +40,12 @@ export async function POST(req: NextRequest) {
         },
       });
 
-
+      const updateAllSubUser = await prisma.user.updateMany({
+        where: { referrer_id: +userId },
+        data:{
+          profileImg : imageUrl,
+        }
+      })
 
 
     return NextResponse.json(

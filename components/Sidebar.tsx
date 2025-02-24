@@ -1,4 +1,4 @@
-import { TwitterLogoIcon } from "@radix-ui/react-icons";
+import { CodeSandboxLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 import {
   File,
   Flame,
@@ -98,6 +98,7 @@ export const Sidebar: React.FC = () => {
     },
     { href: "/dashboard?tab=website", Icon: <Globe fill="#000" stroke="#fff" />, label: "Website Link" },
     { href: "/history", Icon: <History  />, label: "History" },
+    { href: "/architecture", Icon: <CodeSandboxLogoIcon  />, label: "Architecture" },
   ];
 
   const logout = () => {
@@ -134,7 +135,7 @@ export const Sidebar: React.FC = () => {
           <div
             className={`mt-24 font-heading font-medium text-sm flex flex-col gap-2`}
           >
-            <ProfileMenu isExpanded={isExpanded} />
+            <ProfileMenu isExpanded={isExpanded}  />
 
             {items.map((item, index) => (
               <SidebarItem
