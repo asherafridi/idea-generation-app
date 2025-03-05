@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOption } from '@/lib/auth';
 import { hashPass } from '@/lib/hash';
 
-export async function PUT(req: NextRequest) {
+export async function POST(req: NextRequest, res:NextResponse) {
     const { email, password, name,id } = await req.json(); // Parse the JSON string back into an object
     const session = await getServerSession(authOption);
     console.log(id);

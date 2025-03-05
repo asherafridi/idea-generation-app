@@ -113,7 +113,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
             <br />
 
-            <FormButton state={loading} text="Update User" />
+            <FormButton state={loading} text="Update User" className="hover:bg-blue-600 hover:text-white" />
           </form>
         </Form>
       </Card>

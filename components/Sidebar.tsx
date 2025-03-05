@@ -7,6 +7,7 @@ import {
   LogOut,
   Menu,
   PanelLeft,
+  Pyramid,
   Settings,
   Twitch,
   Twitter,
@@ -97,8 +98,8 @@ export const Sidebar: React.FC = () => {
       label: "Upload Document",
     },
     { href: "/dashboard?tab=website", Icon: <Globe fill="#000" stroke="#fff" />, label: "Website Link" },
+    { href: "/architecture", Icon: <Pyramid  fill="#000" stroke="#fff" />, label: "Architecture" },
     { href: "/history", Icon: <History  />, label: "History" },
-    { href: "/architecture", Icon: <CodeSandboxLogoIcon  />, label: "Architecture" },
   ];
 
   const logout = () => {
@@ -110,7 +111,7 @@ export const Sidebar: React.FC = () => {
       {/* Sidebar */}
       <div
         className={`sidebar overflow-y-auto fixed px-2 max-h-screen  top-0 h-screen transition-all duration-300 ease-in-out bg-background z-50 md:z-auto overflow-hidden text-sidebar-foreground flex flex-col justify-between ${
-          isExpanded ? "left-0 w-72" : "-left-72 w-72 lg:left-0 lg:w-24"
+          isExpanded ? "left-0 w-72" : "-left-72 w-72 lg:left-0 lg:w-32"
         }`}
       >
         <div className="flex flex-col justify-between">

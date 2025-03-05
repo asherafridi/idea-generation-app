@@ -99,7 +99,7 @@ const Page = () => {
 
             <br />
 
-            <FormButton state={loading} />
+            <FormButton state={loading} className="hover:bg-blue-600 hover:text-white" />
           </form>
         </Form>
       </Card>
