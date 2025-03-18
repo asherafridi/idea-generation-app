@@ -9,14 +9,28 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import { useAllUserFetch } from "@/hooks/userHook";
 import Breadcrumb from "@/components/Breadcrumb";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 const Page = () => {
   const { users, userLoader } = useAllUserFetch();
-
+const router = useRouter();
   return (
-    <div className="p-4 min-h-screen pt-12">
-      <Breadcrumb text="Your Users" />
+    <div className="p-4 min-h-screen ">
+      <div className="w-full border-b px-2 lg:px-16 py-6 flex items-center gap-6">
+        <Button
+          variant="outline"
+          className="font-body py-6 flex gap-4 bg-background text-xl"
+          onClick={() => router.push("/dashboard?tab=social")}
+        >
+          <ArrowLeft /> Back
+        </Button>
+        <h1 className="font-heading text-2xl  lg:text-4xl font-bold">Users</h1>
+      </div>
       <p className="mb-10"></p>
+      {userLoader && (
+        <Skeleton className="w-full h-[400px]" />
+      )}
       {!userLoader && (
         <Card className="p-4 pt-0 font-body">
           <DataTable columns={columns} data={users} />

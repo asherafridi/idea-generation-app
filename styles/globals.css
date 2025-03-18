@@ -123,6 +123,14 @@ body.dark {
   background-position: center;
 }
 
+.create-user-image{
+  background: url('/create_user.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  mix-blend-mode: multiply;
+}
+
 body.light .generation-image {
   background: url('/light_bulb.png');
   background-size: contain;
