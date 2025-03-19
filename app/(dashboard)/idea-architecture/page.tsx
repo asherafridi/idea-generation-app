@@ -36,17 +36,27 @@ const Page: React.FC = () => {
     const fetchDiagramData = async () => {
       try {
         setLoading(true);
-        const response = await axios.post<DiagramResponse>(
+        const response = await axios.post(
           "https://app.eraser.io/api/render/prompt", // Replace with your API endpoint
-          { idea: prototypeText },
+          { "text" : "An Azure-based RAG application for querying a company’s codebase. Azure Front Door manages global request routing, directing users to a web interface hosted on Azure App Service or Static Web Apps. When a user asks a question, it’s routed through Azure API Management. Azure Cognitive Search indexes the codebase stored in Azure Blob Storage or Azure DevOps Repos to retrieve relevant snippets. These results are then passed to Azure OpenAI Service to generate context-rich responses. Azure Functions handle data transformations, while Azure Cache for Redis speeds up response times by caching frequent queries. The response flows back through API Management to the web interface, with monitoring managed by Azure Monitor and Application Insights.",
+            "theme" : "light",
+            "diagramType": "flowchart-diagram",
+    "mode": "standard",
+    "returnFile": false,
+    "background": true,
+    "scale": "1"
+           },
           {
-            headers: { "Content-Type": "application/json",
-              "Authorization" :"Bearer ngSvOEpJZLZrT43hEbum"
+            headers: { 
+              "accept": "application/json",
+              "content-type": "application/json",
+              "authorization": "Bearer ngSvOEpJZLZrT43hEbum"          
              },
           }
         );
         setDiagramData(response.data);
         setLoading(false);
+        console.log(response);
       } catch (error) {
         toast.error("Failed to fetch diagram data. Please try again.");
         setLoading(false);
