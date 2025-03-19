@@ -16,7 +16,7 @@ const Page = () => {
   const { users, userLoader } = useAllUserFetch();
 const router = useRouter();
   return (
-    <div className="p-4 min-h-screen ">
+    <div className=" min-h-screen ">
       <div className="w-full border-b px-2 lg:px-16 py-6 flex items-center gap-6">
         <Button
           variant="outline"
