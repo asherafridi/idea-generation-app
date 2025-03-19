@@ -32,7 +32,7 @@ const router = useRouter();
         <Skeleton className="w-full h-[400px]" />
       )}
       {!userLoader && (
-        <Card className="p-4 pt-0 font-body">
+        <Card className="p-4 pt-0 font-body m-4">
           <DataTable columns={columns} data={users} />
         </Card>
       )}
