@@ -14,6 +14,8 @@ export type Contact = {
   name: string;
   email: string;
 };
+const [open, setOpen] = useState(false);
+
 
 export const columns: ColumnDef<Contact>[] = [
   {
@@ -30,13 +32,12 @@ export const columns: ColumnDef<Contact>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original;
-      const [open, setOpen] = useState(false);
+      
 
       const handleDelete = () => {
         useUserDelete(payment.id);
         setOpen(false); // Ensure modal closes after deleting
       };
-
       const handleCancel = () => {
         setOpen(false);
         setTimeout(()=>{
