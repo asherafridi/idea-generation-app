@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import { useUserDelete } from "@/hooks/userHook";
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
 
 export type Contact = {
@@ -29,34 +30,24 @@ export const columns: ColumnDef<Contact>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original;
-      const [open, setOpen] = useState(false); // State for controlling the dialog
+      const [open, setOpen] = useState(false);
 
-      const handleDelete = async () => {
-        try {
-          // Call your API to delete the user
-          const response = await fetch(`/api/users/${payment.id}`, {
-            method: "DELETE",
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to delete user");
-          }
-
-          // Handle success (e.g., refresh the data or show a notification)
-          console.log("User deleted successfully");
-          setOpen(false); // Close the dialog
-        } catch (error) {
-          console.error("Error deleting user:", error);
-        }
+      const handleDelete = () => {
+        useUserDelete(payment.id);
+        setOpen(false); // Ensure modal closes after deleting
       };
 
       const handleCancel = () => {
-        setOpen(false); // Close the dialog
+        setOpen(false);
+        setTimeout(()=>{
+
+          document.body.style.pointerEvents = "auto";
+        },500) // Restore pointer events
       };
 
       return (
         <>
-          <DropdownMenu>
+          <DropdownMenu >
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
